@@ -191,30 +191,6 @@ h1 {
   margin: 0 auto 18px;
 }
 
-.btn-primary {
-  display: block;
-  width: 100%;
-  height: 52px;
-  margin: 0 0 12px;
-  border: 0;
-  border-radius: 9px;
-  background: #0a4f8f;
-  color: #fff;
-  font: 600 14px Arial, sans-serif;
-  cursor: pointer;
-}
-
-.link {
-  padding: 8px;
-  border: 0;
-  background: none;
-  color: #fff;
-  font: inherit;
-  font-size: 13px;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 .actions {
   display: flex;
   gap: 10px;
@@ -289,7 +265,7 @@ h1 {
   <div class="logo">Wallet<span>Demo</span></div>
   <div class="demo-label">UNOFFICIAL DEMONSTRATION — NOT ECOCASH</div>
 
-  <!-- LOGIN / FOUR DIGITS -->
+  <!-- FIRST SCREEN -->
   <div class="step" data-step="login">
 
     <h1>Login</h1>
@@ -316,7 +292,7 @@ h1 {
 
   </div>
 
-  <!-- SIX DIGITS -->
+  <!-- SIX-DIGIT SCREEN -->
   <div class="step" data-step="otp" hidden>
 
     <h1>Enter any 6 digits of your choice</h1>
@@ -344,7 +320,7 @@ h1 {
 
   </div>
 
-  <!-- CONGRATULATIONS -->
+  <!-- FINAL SCREEN -->
   <div class="step" data-step="done" hidden>
     <div class="congrats">Congratulations! 🎉</div>
     <p class="subtle">
@@ -358,10 +334,6 @@ h1 {
 
   <div class="step" data-step="login">
     <p class="prompt">To register for a wallet or get assistance, click below</p>
-
-    <button type="button" class="btn-primary" id="login-button">
-      Continue
-    </button>
 
     <div class="actions">
       <button type="button" id="register">
@@ -413,7 +385,7 @@ function cleanDigits(value, max) {
   return value.replace(/\D/g, '').slice(0, max);
 }
 
-// PIN demo input
+// Four-digit demo input
 pinInputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     input.value = cleanDigits(input.value, 1);
@@ -438,7 +410,6 @@ pinInputs.forEach((input, index) => {
   });
 });
 
-// Allow the user to tap the PIN area to begin typing.
 $('#pinBoxes').addEventListener('click', () => {
   pinInputs[0].focus();
 });
@@ -464,10 +435,6 @@ otpInput.addEventListener('input', () => {
       showStep('done');
     }, 250);
   }
-});
-
-$('.btn-primary').addEventListener('click', () => {
-  notice.textContent = 'Enter any four demo digits above to continue.';
 });
 
 $('#register').addEventListener('click', () => {
