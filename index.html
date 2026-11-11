@@ -3,332 +3,484 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0875d1">
 <title>Wallet Demo</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
 }
 
-body {
-    min-height: 100vh;
-    background: #f3f6fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    color: #222;
-}
+body { background: #0875d1; }
 
 .app {
-    width: 100%;
-    max-width: 420px;
-    background: #fff;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,.09);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  color: white;
+  background: linear-gradient(160deg, #087bd8, #0063c9);
 }
 
-.header {
-    background: linear-gradient(135deg, #0878c9, #00569d);
-    color: white;
-    padding: 28px 22px;
-    text-align: center;
+.top {
+  height: 59%;
+  flex-shrink: 0;
+  background: #fff;
+  color: #303b42;
+  border-radius: 0 0 50% 10% / 0 0 9% 5%;
+  padding: clamp(28px, 7vh, 58px) 22px 25px;
+  text-align: center;
 }
 
 .logo {
-    font-size: 27px;
-    font-weight: 800;
-    letter-spacing: .5px;
+  font-size: clamp(29px, 8vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 clamp(26px, 6vh, 43px);
+  color: #1769b4;
 }
 
-.header p {
-    margin-top: 8px;
-    font-size: 13px;
-    opacity: .9;
-}
+.logo span { color: #d23d43; }
 
 .demo-label {
-    display: inline-block;
-    margin-top: 14px;
-    padding: 6px 12px;
-    border: 1px solid rgba(255,255,255,.65);
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: bold;
-    letter-spacing: 1px;
+  font-size: 10px;
+  color: #8a5555;
+  margin: -28px 0 20px;
+  font-weight: bold;
 }
 
-.content {
-    padding: 30px 24px;
-    text-align: center;
+h1 {
+  font-size: 18px;
+  margin: 0 0 20px;
 }
 
-.screen {
-    display: none;
+.step { animation: rise 0.35s ease both; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 
-.screen.active {
-    display: block;
-    animation: appear .3s ease;
+.phone {
+  height: 46px;
+  border: 1.5px solid #2878b7;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 9px;
+  text-align: left;
 }
 
-@keyframes appear {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+.phone:focus-within {
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
 }
 
-h2 {
-    font-size: 21px;
-    margin-bottom: 10px;
-    color: #202b36;
+.dial {
+  font-size: 13px;
+  color: #68727b;
 }
 
-.description {
-    color: #78828c;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 27px;
+.phone input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  background: transparent;
 }
 
-.code-boxes {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 25px 0;
+.hint {
+  font-size: 12px;
+  color: #626c74;
+  margin: 10px 0 21px;
 }
 
-.code-box {
-    width: 53px;
-    height: 58px;
-    border: 1.5px solid #ccd5df;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-weight: bold;
-    color: #0878c9;
-    background: #fff;
+.pin {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
 }
 
-.code-box.filled {
-    border-color: #0878c9;
-    background: #f0f8ff;
+.pin input {
+  width: clamp(42px, 10vw, 49px);
+  height: clamp(42px, 10vw, 49px);
+  border: 1.4px solid #2878b7;
+  border-radius: 7px;
+  text-align: center;
+  font-size: 22px;
+  color: #1769b4;
+  background: white;
 }
 
-.hidden-input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
+.pin input:focus {
+  outline: none;
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
 }
 
-.demo-note {
-    background: #f1f7fc;
-    color: #526779;
-    border-radius: 9px;
-    padding: 12px;
-    font-size: 12px;
-    line-height: 1.5;
-    margin-top: 22px;
+.subtle {
+  max-width: 300px;
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #626c74;
 }
 
-.footer {
-    border-top: 1px solid #edf0f3;
-    padding: 17px 20px;
-    text-align: center;
-    color: #89939d;
-    font-size: 11px;
-    line-height: 1.6;
+.otp-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
 }
 
-.progress {
-    height: 4px;
-    background: #e8edf2;
+.otp-box {
+  width: clamp(38px, 10vw, 46px);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #2878b7;
+  border-radius: 7px;
+  background: #fff;
+  color: #1769b4;
+  font-size: 22px;
+  font-weight: 600;
 }
 
-.progress-bar {
-    height: 100%;
-    width: 50%;
-    background: #0878c9;
-    transition: width .3s ease;
+.otp-box.active {
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
 }
 
-@media(max-width: 380px) {
-    .code-boxes { gap: 8px; }
-    .code-box {
-        width: 48px;
-        height: 54px;
-    }
+.otp-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font-size: 16px;
+  cursor: text;
+}
+
+.bottom {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 22px max(22px, env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.prompt {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 auto 18px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  height: 52px;
+  margin: 0 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #0a4f8f;
+  color: #fff;
+  font: 600 14px Arial, sans-serif;
+  cursor: pointer;
+}
+
+.link {
+  padding: 8px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  height: 56px;
+  flex: 1;
+  border: 0;
+  border-radius: 9px;
+  background: white;
+  color: #0871c9;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.symbol {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.version {
+  font-size: 11px;
+  margin: clamp(22px, 5vh, 42px) 0 8px;
+}
+
+.terms {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0;
+  color: #eaf4ff;
+}
+
+.terms a {
+  color: white;
+  text-decoration: underline;
+}
+
+#notice {
+  font-size: 12px;
+  min-height: 16px;
+  margin: 8px 0 0;
+}
+
+.congrats {
+  font-size: 27px;
+  font-weight: bold;
+  color: #1769b4;
+  margin: 20px 0;
+}
+
+@media (max-height: 650px) {
+  .top {
+    height: 62%;
+    padding-top: 20px;
+  }
+  .logo { margin-bottom: 16px; }
+  h1 { margin-bottom: 12px; }
+  .hint { margin: 7px 0 12px; }
+  .version { margin-top: 14px; }
+  .prompt { margin-bottom: 10px; }
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
-    <div class="header">
-        <div class="logo">WALLET DEMO</div>
-        <p>A simple interactive demonstration</p>
-        <div class="demo-label">DEMO ONLY</div>
+<section class="top">
+
+  <div class="logo">Wallet<span>Demo</span></div>
+  <div class="demo-label">UNOFFICIAL DEMONSTRATION — NOT ECOCASH</div>
+
+  <!-- LOGIN / FOUR DIGITS -->
+  <div class="step" data-step="login">
+
+    <h1>Login</h1>
+
+    <div class="phone">
+      <span>🇿🇼</span>
+      <span class="dial">+263</span>
+      <input id="phone" type="tel" inputmode="numeric"
+        placeholder="Phone Number" aria-label="Phone number">
     </div>
 
-    <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
+    <p class="hint">Enter any 4 digit code of your choice</p>
+
+    <div class="pin" id="pinBoxes">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 1">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 2">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 3">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 4">
     </div>
 
-    <div class="content">
+    <p class="subtle" style="margin-top:15px">
+      Use any four digits for this demonstration. Never enter your real wallet PIN.
+    </p>
 
-        <!-- FIRST SCREEN -->
-        <section class="screen active" id="firstScreen">
+  </div>
 
-            <h2>Welcome</h2>
+  <!-- SIX DIGITS -->
+  <div class="step" data-step="otp" hidden>
 
-            <p class="description">
-                Enter any 4 digit code of your choice.
-            </p>
+    <h1>Enter any 6 digits of your choice</h1>
 
-            <div class="code-boxes" id="fourBoxes">
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-            </div>
+    <p class="subtle">
+      This is a demonstration screen. Choose any six digits.
+    </p>
 
-            <input
-                type="text"
-                id="fourDigitInput"
-                class="hidden-input"
-                inputmode="numeric"
-                maxlength="4"
-                autocomplete="off"
-                aria-label="Enter any four demo digits"
-            >
+    <div class="otp-row">
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
 
-            <div class="demo-note">
-                This is a demo. Choose any four digits.
-                Do not enter a real PIN or account password.
-            </div>
-
-        </section>
-
-
-        <!-- FINAL SCREEN -->
-        <section class="screen" id="finalScreen">
-
-            <h2>One Last Step</h2>
-
-            <p class="description">
-                Enter any 6 digits of your choice.
-            </p>
-
-            <div class="code-boxes" id="sixBoxes">
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-                <div class="code-box"></div>
-            </div>
-
-            <input
-                type="text"
-                id="sixDigitInput"
-                class="hidden-input"
-                inputmode="numeric"
-                maxlength="6"
-                autocomplete="off"
-                aria-label="Enter any six demo digits"
-            >
-
-            <div class="demo-note" id="finalNote">
-                Choose any six digits. This demo does not send,
-                save, or verify the digits you enter.
-            </div>
-
-        </section>
-
+      <input id="otp-input" class="otp-input"
+        type="text" inputmode="numeric" maxlength="6"
+        autocomplete="off" aria-label="Six demo digits">
     </div>
 
-    <div class="footer">
-        Demo interface only · Not connected to EcoCash or any financial service
+    <p class="subtle" style="margin-top:15px">
+      Do not enter a real one-time password.
+    </p>
+
+  </div>
+
+  <!-- CONGRATULATIONS -->
+  <div class="step" data-step="done" hidden>
+    <div class="congrats">Congratulations! 🎉</div>
+    <p class="subtle">
+      You have successfully completed the demonstration.
+    </p>
+  </div>
+
+</section>
+
+<section class="bottom">
+
+  <div class="step" data-step="login">
+    <p class="prompt">To register for a wallet or get assistance, click below</p>
+
+    <button type="button" class="btn-primary" id="login-button">
+      Continue
+    </button>
+
+    <div class="actions">
+      <button type="button" id="register">
+        <span class="symbol">♟</span>Register
+      </button>
+
+      <button type="button" id="help">
+        <span class="symbol">ⓘ</span>Help &amp; Support
+      </button>
     </div>
 
+    <p class="version">Wallet Demo</p>
+
+    <p class="terms">
+      By continuing, you agree to the
+      <a href="#" id="terms">Terms and Conditions</a>
+    </p>
+  </div>
+
+  <div class="step" data-step="otp" hidden>
+    <p class="prompt">Enter six demo digits to complete the demonstration.</p>
+  </div>
+
+  <div class="step" data-step="done" hidden>
+    <p class="prompt">Thank you for trying the demo!</p>
+  </div>
+
+  <p id="notice" role="status"></p>
+
+</section>
 </div>
 
-
 <script>
-const firstScreen = document.getElementById("firstScreen");
-const finalScreen = document.getElementById("finalScreen");
+const $ = selector => document.querySelector(selector);
 
-const fourInput = document.getElementById("fourDigitInput");
-const sixInput = document.getElementById("sixDigitInput");
+const pinInputs = [...document.querySelectorAll('#pinBoxes input')];
+const otpInput = $('#otp-input');
+const otpBoxes = [...document.querySelectorAll('.otp-box')];
+const notice = $('#notice');
 
-const progressBar = document.getElementById("progressBar");
-
-const fourBoxes = document.querySelectorAll("#fourBoxes .code-box");
-const sixBoxes = document.querySelectorAll("#sixBoxes .code-box");
-
-function updateBoxes(input, boxes) {
-    const digits = input.value;
-
-    boxes.forEach((box, index) => {
-        box.textContent = digits[index] ? "•" : "";
-        box.classList.toggle("filled", Boolean(digits[index]));
-    });
+function showStep(name) {
+  document.querySelectorAll('[data-step]').forEach(element => {
+    element.hidden = element.dataset.step !== name;
+  });
+  notice.textContent = '';
 }
 
-// Open the first code input when the screen is tapped.
-firstScreen.addEventListener("click", () => {
-    fourInput.focus();
-});
+function cleanDigits(value, max) {
+  return value.replace(/\D/g, '').slice(0, max);
+}
 
-fourInput.addEventListener("input", () => {
-    fourInput.value = fourInput.value
-        .replace(/\D/g, "")
-        .slice(0, 4);
+// PIN demo input
+pinInputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    input.value = cleanDigits(input.value, 1);
 
-    updateBoxes(fourInput, fourBoxes);
-
-    // Automatically continue after four digits.
-    if (fourInput.value.length === 4) {
-        fourInput.value = "";
-
-        setTimeout(() => {
-            firstScreen.classList.remove("active");
-            finalScreen.classList.add("active");
-
-            progressBar.style.width = "100%";
-
-            sixInput.focus();
-        }, 250);
+    if (input.value && pinInputs[index + 1]) {
+      pinInputs[index + 1].focus();
     }
-});
 
-// Open the final input when the final screen is tapped.
-finalScreen.addEventListener("click", () => {
-    sixInput.focus();
-});
-
-sixInput.addEventListener("input", () => {
-    sixInput.value = sixInput.value
-        .replace(/\D/g, "")
-        .slice(0, 6);
-
-    updateBoxes(sixInput, sixBoxes);
-
-    // Final screen: no submission or transmission.
-    if (sixInput.value.length === 6) {
-        document.getElementById("finalNote").textContent =
-            "Demo complete. No information has been sent, saved, or verified.";
+    if (pinInputs.every(box => box.value.length === 1)) {
+      setTimeout(() => {
+        pinInputs.forEach(box => box.value = '');
+        showStep('otp');
+        otpInput.focus();
+      }, 250);
     }
+  });
+
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Backspace' && !input.value && pinInputs[index - 1]) {
+      pinInputs[index - 1].focus();
+    }
+  });
+});
+
+// Allow the user to tap the PIN area to begin typing.
+$('#pinBoxes').addEventListener('click', () => {
+  pinInputs[0].focus();
+});
+
+// Six-digit demo input
+otpInput.addEventListener('input', () => {
+  otpInput.value = cleanDigits(otpInput.value, 6);
+
+  const digits = otpInput.value;
+
+  otpBoxes.forEach((box, index) => {
+    box.textContent = digits[index] ? '•' : '';
+    box.classList.toggle(
+      'active',
+      index === Math.min(digits.length, 5)
+    );
+  });
+
+  if (digits.length === 6) {
+    otpInput.value = '';
+
+    setTimeout(() => {
+      showStep('done');
+    }, 250);
+  }
+});
+
+$('.btn-primary').addEventListener('click', () => {
+  notice.textContent = 'Enter any four demo digits above to continue.';
+});
+
+$('#register').addEventListener('click', () => {
+  notice.textContent = 'This is an unofficial demonstration page.';
+});
+
+$('#help').addEventListener('click', () => {
+  notice.textContent = 'This demonstration does not provide wallet support.';
+});
+
+$('#terms').addEventListener('click', event => {
+  event.preventDefault();
+  notice.textContent = 'Demo only. No financial service is connected.';
 });
 </script>
 
