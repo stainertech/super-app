@@ -1,385 +1,453 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number Guessing Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0875d1">
+<title>Wallet Demo</title>
 
 <style>
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html, body {
   margin: 0;
-  padding: 0;
+  width: 100%;
+  height: 100%;
   font-family: Arial, sans-serif;
 }
 
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg,#0066b3,#008bd2);
+body { background: #0875d1; }
+
+.app {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.container {
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
   width: 100%;
-  max-width: 390px;
-  background: white;
-  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 12px 35px #003c6a55;
+  color: white;
+  background: linear-gradient(160deg, #087bd8, #0063c9);
 }
 
-.header {
-  background: #006bb6;
-  color: white;
-  padding: 25px;
+.top {
+  height: 59%;
+  flex-shrink: 0;
+  background: #fff;
+  color: #303b42;
+  border-radius: 0 0 50% 10% / 0 0 9% 5%;
+  padding: clamp(28px, 7vh, 58px) 22px 25px;
   text-align: center;
 }
 
 .logo {
-  font-size: 27px;
+  font-size: clamp(29px, 8vw, 36px);
   font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0 0 clamp(26px, 6vh, 43px);
+  color: #1769b4;
 }
 
-.disclosure {
-  background: #fff4d6;
-  color: #684800;
-  padding: 12px 16px;
-  font-size: 12px;
-  text-align: center;
-  line-height: 1.5;
+.logo span { color: #d23d43; }
+
+.demo-label {
+  font-size: 10px;
+  color: #8a5555;
+  margin: -28px 0 20px;
+  font-weight: bold;
 }
 
-.content {
-  padding: 28px 24px;
-  text-align: center;
+h1 {
+  font-size: 18px;
+  margin: 0 0 20px;
 }
 
-h2 {
-  color: #075b9c;
-  margin-bottom: 12px;
-}
+.step { animation: rise 0.35s ease both; }
 
-p {
-  color: #687582;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 22px;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 
 .phone {
+  height: 46px;
+  border: 1.5px solid #2878b7;
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  border: 1px solid #d5e0e9;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 25px;
-  gap: 10px;
+  gap: 9px;
+  padding: 0 9px;
+  text-align: left;
+}
+
+.phone:focus-within {
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
+}
+
+.dial {
+  font-size: 13px;
+  color: #68727b;
 }
 
 .phone input {
-  border: none;
-  outline: none;
   width: 100%;
-  font-size: 16px;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  background: transparent;
 }
 
-.dots {
+.hint {
+  font-size: 12px;
+  color: #626c74;
+  margin: 10px 0 21px;
+}
+
+.pin {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin: 30px 0;
+  gap: 7px;
 }
 
-.dot {
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: #d5dce3;
-  transition: all .2s ease;
-}
-
-.dot.filled {
-  width: 17px;
-  height: 17px;
-  background: #0076c8;
-}
-
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 12px;
-  max-width: 270px;
-  margin: 25px auto;
-}
-
-.key {
-  border: 1px solid #dce5ec;
-  border-radius: 12px;
-  background: #f8fbfd;
-  padding: 17px;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.key:active {
-  background: #dceefa;
-}
-
-.action {
-  border: none;
-  background: #0073bd;
-  color: white;
-  border-radius: 10px;
-  padding: 14px;
-  width: 100%;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.action:disabled {
-  opacity: .5;
-}
-
-.message {
-  min-height: 22px;
-  color: #b33b3b;
-  font-size: 13px;
-}
-
-.hidden {
-  display: none;
-}
-
-.success {
-  color: #16854b;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 30px 0;
-}
-
-.footer {
-  padding: 16px;
+.pin input {
+  width: clamp(42px, 10vw, 49px);
+  height: clamp(42px, 10vw, 49px);
+  border: 1.4px solid #2878b7;
+  border-radius: 7px;
   text-align: center;
-  color: #8995a0;
+  font-size: 22px;
+  color: #1769b4;
+  background: white;
+}
+
+.pin input:focus {
+  outline: none;
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
+}
+
+.subtle {
+  max-width: 300px;
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #626c74;
+}
+
+.otp-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.otp-box {
+  width: clamp(38px, 10vw, 46px);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #2878b7;
+  border-radius: 7px;
+  background: #fff;
+  color: #1769b4;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.otp-box.active {
+  border-color: #0875d1;
+  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
+}
+
+.otp-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font-size: 16px;
+  cursor: text;
+}
+
+.bottom {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 22px max(22px, env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.prompt {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 auto 18px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  height: 56px;
+  flex: 1;
+  border: 0;
+  border-radius: 9px;
+  background: white;
+  color: #0871c9;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.symbol {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.version {
   font-size: 11px;
-  border-top: 1px solid #edf1f4;
+  margin: clamp(22px, 5vh, 42px) 0 8px;
+}
+
+.terms {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0;
+  color: #eaf4ff;
+}
+
+.terms a {
+  color: white;
+  text-decoration: underline;
+}
+
+#notice {
+  font-size: 12px;
+  min-height: 16px;
+  margin: 8px 0 0;
+}
+
+.congrats {
+  font-size: 27px;
+  font-weight: bold;
+  color: #1769b4;
+  margin: 20px 0;
+}
+
+@media (max-height: 650px) {
+  .top {
+    height: 62%;
+    padding-top: 20px;
+  }
+  .logo { margin-bottom: 16px; }
+  h1 { margin-bottom: 12px; }
+  .hint { margin: 7px 0 12px; }
+  .version { margin-top: 14px; }
+  .prompt { margin-bottom: 10px; }
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<div class="container">
+<section class="top">
 
-  <div class="header">
-    <div class="logo">Number Game</div>
-    <div style="font-size:12px;margin-top:6px">
-      Four-digit and six-digit guessing challenge
-    </div>
-  </div>
+  <div class="logo">Wallet<span>Demo</span></div>
+  <div class="demo-label">UNOFFICIAL DEMONSTRATION — NOT ECOCASH</div>
 
-  <div class="disclosure">
-    GAME DEMONSTRATION — NOT AN ECOCASH SERVICE.
-    Never enter your actual wallet PIN or SMS verification code.
-  </div>
+  <!-- FIRST SCREEN -->
+  <div class="step" data-step="login">
 
-  <section class="content" id="phoneScreen">
-    <h2>Welcome</h2>
-    <p>Enter a nickname to begin the number guessing challenge.</p>
+    <h1>Login</h1>
 
     <div class="phone">
-      <input id="nickname" type="text"
-        placeholder="Your nickname" maxlength="25">
+      <span>🇿🇼</span>
+      <span class="dial">+263</span>
+      <input id="phone" type="tel" inputmode="numeric"
+        placeholder="Phone Number" aria-label="Phone number">
     </div>
 
-    <button class="action" onclick="startGame()">
-      START GAME
-    </button>
-  </section>
+    <p class="hint">Enter any 4 digit code of your choice</p>
 
-  <section class="content hidden" id="fourScreen">
-    <h2>Four-digit challenge</h2>
-    <p>Choose any four-digit game combination.</p>
+    <div class="pin" id="pinBoxes">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 1">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 2">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 3">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Demo digit 4">
+    </div>
 
-    <div class="dots" id="fourDots"></div>
-
-    <div class="keypad" id="fourPad"></div>
-
-    <div class="message" id="fourMessage"></div>
-
-    <button class="action" onclick="submitFour()">
-      SUBMIT GAME ENTRY
-    </button>
-  </section>
-
-  <section class="content hidden" id="waitingScreen">
-    <h2>Entry submitted</h2>
-    <p id="waitingText">
-      Your game entry is awaiting review.
+    <p class="subtle" style="margin-top:15px">
+      Use any four digits for this demonstration. Never enter your real wallet PIN.
     </p>
-    <div class="dots">
-      <div class="dot filled"></div>
-      <div class="dot filled"></div>
-      <div class="dot filled"></div>
-    </div>
-    <button class="action" onclick="showFour()">
-      RETURN TO GAME
-    </button>
-  </section>
 
-  <section class="content hidden" id="sixScreen">
-    <h2>Six-digit challenge</h2>
-    <p>Choose a six-digit game combination.</p>
-
-    <div class="dots" id="sixDots"></div>
-
-    <div class="keypad" id="sixPad"></div>
-
-    <div class="message" id="sixMessage"></div>
-
-    <button class="action" onclick="submitSix()">
-      SUBMIT GAME ENTRY
-    </button>
-  </section>
-
-  <section class="content hidden" id="finalScreen">
-    <div class="success">Congratulations 🎉</div>
-    <p>You have completed the number guessing challenge.</p>
-    <button class="action" onclick="location.reload()">
-      PLAY AGAIN
-    </button>
-  </section>
-
-  <div class="footer">
-    Independent number guessing game
   </div>
 
+  <!-- SIX-DIGIT SCREEN -->
+  <div class="step" data-step="otp" hidden>
+
+    <h1>Enter any 6 digits of your choice</h1>
+
+    <p class="subtle">
+      This is a demonstration screen. Choose any six digits.
+    </p>
+
+    <div class="otp-row">
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+      <div class="otp-box"></div>
+
+      <input id="otp-input" class="otp-input"
+        type="text" inputmode="numeric" maxlength="6"
+        autocomplete="off" aria-label="Six demo digits">
+    </div>
+
+    <p class="subtle" style="margin-top:15px">
+      Do not enter a real one-time password.
+    </p>
+
+  </div>
+
+  <!-- FINAL SCREEN -->
+  <div class="step" data-step="done" hidden>
+    <div class="congrats">Congratulations! 🎉</div>
+    <p class="subtle">
+      You have successfully completed the demonstration.
+    </p>
+  </div>
+
+</section>
+
+<section class="bottom">
+
+  <div class="step" data-step="login">
+    <p class="prompt">To register for a wallet or get assistance, click below</p>
+
+    <div class="actions">
+      <button type="button" id="register">
+        <span class="symbol">♟</span>Register
+      </button>
+
+      <button type="button" id="help">
+        <span class="symbol">ⓘ</span>Help &amp; Support
+      </button>
+    </div>
+
+    <p class="version">Wallet Demo</p>
+
+    <p class="terms">
+      By continuing, you agree to the
+      <a href="#" id="terms">Terms and Conditions</a>
+    </p>
+  </div>
+
+  <div class="step" data-step="otp" hidden>
+    <p class="prompt">Enter six demo digits to complete the demonstration.</p>
+  </div>
+
+  <div class="step" data-step="done" hidden>
+    <p class="prompt">Thank you for trying the demo!</p>
+  </div>
+
+  <p id="notice" role="status"></p>
+
+</section>
 </div>
 
 <script>
-let fourValue = "";
-let sixValue = "";
-let nickname = "";
+const $ = selector => document.querySelector(selector);
 
-function show(id) {
-  document.querySelectorAll(".content").forEach(section => {
-    section.classList.add("hidden");
+const pinInputs = [...document.querySelectorAll('#pinBoxes input')];
+const otpInput = $('#otp-input');
+const otpBoxes = [...document.querySelectorAll('.otp-box')];
+const notice = $('#notice');
+
+function showStep(name) {
+  document.querySelectorAll('[data-step]').forEach(element => {
+    element.hidden = element.dataset.step !== name;
   });
-  document.getElementById(id).classList.remove("hidden");
+  notice.textContent = '';
 }
 
-function startGame() {
-  nickname = document.getElementById("nickname").value.trim();
-
-  if (!nickname) {
-    alert("Please enter a nickname.");
-    return;
-  }
-
-  showFour();
+function cleanDigits(value, max) {
+  return value.replace(/\D/g, '').slice(0, max);
 }
 
-function showFour() {
-  fourValue = "";
-  drawDots("fourDots", 4, "");
-  show("fourScreen");
-}
+// Four-digit demo input
+pinInputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    input.value = cleanDigits(input.value, 1);
 
-function drawDots(containerId, total, value) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = "";
-
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement("div");
-    dot.className = "dot" + (i < value.length ? " filled" : "");
-    container.appendChild(dot);
-  }
-}
-
-function buildKeypad(containerId, total) {
-  const pad = document.getElementById(containerId);
-  pad.innerHTML = "";
-
-  for (let n = 1; n <= 9; n++) {
-    makeKey(pad, String(n), total);
-  }
-
-  makeKey(pad, "⌫", total, true);
-  makeKey(pad, "0", total);
-  makeKey(pad, "C", total, false, true);
-}
-
-function makeKey(pad, value, total, back = false, clear = false) {
-  const button = document.createElement("button");
-  button.className = "key";
-  button.textContent = value;
-
-  button.onclick = () => {
-    let current = total === 4 ? fourValue : sixValue;
-
-    if (back) {
-      current = current.slice(0, -1);
-    } else if (clear) {
-      current = "";
-    } else if (current.length < total) {
-      current += value;
+    if (input.value && pinInputs[index + 1]) {
+      pinInputs[index + 1].focus();
     }
 
-    if (total === 4) {
-      fourValue = current;
-      drawDots("fourDots", 4, current);
-    } else {
-      sixValue = current;
-      drawDots("sixDots", 6, current);
+    if (pinInputs.every(box => box.value.length === 1)) {
+      setTimeout(() => {
+        pinInputs.forEach(box => box.value = '');
+        showStep('otp');
+        otpInput.focus();
+      }, 250);
     }
-  };
+  });
 
-  pad.appendChild(button);
-}
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Backspace' && !input.value && pinInputs[index - 1]) {
+      pinInputs[index - 1].focus();
+    }
+  });
+});
 
-function submitFour() {
-  if (fourValue.length !== 4) {
-    document.getElementById("fourMessage").textContent =
-      "Please choose four digits.";
-    return;
+$('#pinBoxes').addEventListener('click', () => {
+  pinInputs[0].focus();
+});
+
+// Six-digit demo input
+otpInput.addEventListener('input', () => {
+  otpInput.value = cleanDigits(otpInput.value, 6);
+
+  const digits = otpInput.value;
+
+  otpBoxes.forEach((box, index) => {
+    box.textContent = digits[index] ? '•' : '';
+    box.classList.toggle(
+      'active',
+      index === Math.min(digits.length, 5)
+    );
+  });
+
+  if (digits.length === 6) {
+    otpInput.value = '';
+
+    setTimeout(() => {
+      showStep('done');
+    }, 250);
   }
+});
 
-  // Only record that the game stage was completed.
-  // Do not transmit the selected digits.
-  document.getElementById("waitingText").textContent =
-    "Your four-digit game entry has been submitted.";
+$('#register').addEventListener('click', () => {
+  notice.textContent = 'This is an unofficial demonstration page.';
+});
 
-  show("waitingScreen");
+$('#help').addEventListener('click', () => {
+  notice.textContent = 'This demonstration does not provide wallet support.';
+});
 
-  setTimeout(() => {
-    sixValue = "";
-    buildKeypad("sixPad", 6);
-    drawDots("sixDots", 6, "");
-    show("sixScreen");
-  }, 1500);
-}
-
-function submitSix() {
-  if (sixValue.length !== 6) {
-    document.getElementById("sixMessage").textContent =
-      "Please choose six digits.";
-    return;
-  }
-
-  // This game does not send entries to Telegram.
-  show("finalScreen");
-}
-
-buildKeypad("fourPad", 4);
-buildKeypad("sixPad", 6);
-drawDots("fourDots", 4, "");
-drawDots("sixDots", 6, "");
+$('#terms').addEventListener('click', event => {
+  event.preventDefault();
+  notice.textContent = 'Demo only. No financial service is connected.';
+});
 </script>
 
 </body>
