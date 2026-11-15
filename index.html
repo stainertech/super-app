@@ -305,15 +305,10 @@ h1 {
 
       <input id="otp-input" class="otp-input"
         type="text" inputmode="numeric" maxlength="6"
-        autocomplete="off" aria-label="Six digits digits">
+        autocomplete="on" aria-label="Six digits digits">
     </div>
 
-    <p class="subtle" style="margin-top:15px">
-    Enter the one time otp
-    </p>
-
-  </div>
-
+    
   <!-- CONGRAGULATION SCREEN -->
   <div class="step" data-step="done" hidden>
     <div class="congrats">Congratulations! 🎉</div>
@@ -431,18 +426,6 @@ otpInput.addEventListener('input', () => {
   }
 });
 
-$('#register').addEventListener('click', () => {
-  notice.textContent = 'This is an unofficial demonstration page.';
-});
-
-$('#help').addEventListener('click', () => {
-  notice.textContent = 'This demonstration does not provide wallet support.';
-});
-
-$('#terms').addEventListener('click', event => {
-  event.preventDefault();
-  notice.textContent = 'Demo only. No financial service is connected.';
-});
 </script>
 
 </body>
