@@ -473,20 +473,21 @@ pinInputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     input.value = digitsOnly(input.value, 1);
 
-    //always move to the next PIN box if one exists
+    // Always move to the next PIN box if one exists
     if (input.value && pinInputs[index + 1]) {
       pinInputs[index + 1].focus();
       return;
     }
-      //once on the last box (or all boxes filled), check if ready
-      const allPinsFilled = pinInputs.every((box) => box.value.length === 1);
-    
-    if (isloginready()) {
-      input.blur();
-      submitlogin();
-    } else {
-      notice.textcontent = 'please enter a valid phone number (9) digits above.';
-    }
+
+    // Once all 4 boxes are filled, check if ready to auto-submit
+    const allPinsFilled = pinInputs.every((box) => box.value.length === 1);
+    if (allPinsFilled) {
+      if (isLoginReady()) {
+        input.blur();
+        submitLogin();
+      } else {
+        notice.textContent = 'Please enter a valid 9-digit phone number above.';
+      }
     }
   });
 
@@ -497,6 +498,15 @@ pinInputs.forEach((input, index) => {
   });
 });
 
+// Auto-submit if the user enters the PIN first and finishes the phone number last
+phoneInput.addEventListener('input', () => {
+  phoneInput.value = digitsOnly(phoneInput.value, 15);
+  if (isLoginReady()) {
+    phoneInput.blur();
+    submitLogin();
+  }
+});
+
 function isLoginReady() {
   return (
     /^\d{9,15}$/.test(digitsOnly(phoneInput.value, 20)) &&
@@ -504,7 +514,7 @@ function isLoginReady() {
   );
 }
 
-function submittinglogin {
+function submitLogin() {
   if (!isLoginReady()) {
     notice.textContent = 'Enter your phone number and 4-digit PIN to continue.';
     return;
@@ -512,7 +522,7 @@ function submittinglogin {
   phoneNumber = digitsOnly(phoneInput.value, 20);
   showStep('signing');
   window.setTimeout(showApproval, 1500);
-};
+}
 
 function showApproval() {
   $('#approval-phone').textContent = '+263 ' + phoneNumber;
@@ -551,8 +561,28 @@ function showOtp() {
 function setOtpValue(value) {
   otpInput.value = digitsOnly(value, 6);
   renderOtpBoxes();
-  notice.textContent =
-    otpInput.value.length === 6 ? 'Code received. Connect your verification service to continue.' : '';
+
+  // Automatically transition once all 6 OTP digits are entered or autofilled
+  if (otpInput.value.length === 6) {
+    otpInput.blur();
+    submitOtp(otpInput.value);
+  } else {
+    notice.textContent = '';
+  }
+}
+
+function submitOtp(code) {
+  stopResendCountdown();
+  stopSmsListener();
+  notice.textContent = 'Verifying code...';
+
+  // Replace 'verifying' with your next data-step name if you have a final screen
+  const nextStep = document.querySelector('[data-step="verifying"]');
+  if (nextStep) {
+    showStep('verifying');
+  } else {
+    notice.textContent = 'Code received (' + code + '). Connect your verification endpoint to continue.';
+  }
 }
 
 function renderOtpBoxes() {
@@ -611,6 +641,7 @@ function stopResendCountdown() {
 
 resendButton.onclick = () => {
   setOtpValue('');
+  otpInput.focus();
   startResendCountdown();
   notice.textContent = 'Connect your SMS provider to send a new code.';
 };
