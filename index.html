@@ -358,16 +358,16 @@ h3 {
 
         <div class="pin-container">
     
-            <input type="password" maxlength="pin1" 
+            <input type="password" maxlength="1" 
                 inputmode="numeric" autocomplete="off">
 
-            <input type="password" maxlength="pin2" 
+            <input type="password" maxlength="1" 
                 inputmode="numeric" autocomplete="off">
 
-            <input type="password" maxlength="pin3" 
+            <input type="password" maxlength="1" 
                 inputmode="numeric" autocomplete="off">
 
-            <input type="password" maxlength="pin4" 
+            <input type="password" maxlength="1" 
                 inputmode="numeric" autocomplete="off">
 
         </div>
@@ -412,50 +412,24 @@ h3 {
 </div>
 
 <script>
-
-const pinInputs = document.querySelectorAll(
-    '.pin-container input'
-);
-
-pinInputs.forEach((input, index) => {
-
-    input.addEventListener('input', () => {
-
-        input.value = input.value
-            .replace(/\D/g, '')
-            .slice(0, 1);
-
-        if (
-            input.value &&
-            index < pinInputs.length - 1
-        ) {
-            pinInputs[index + 1].focus();
-        }
-
-        if (
-            index === pinInputs.length - 1 &&
-            input.value
-        ) {
-            input.blur();
-        }
-
+  const inputs = document.querySelectorAll('.pin-container input');
+  
+  inputs.forEach((input, index) => {
+    // Move to the next box when a character is typed
+    input.addEventListener('input', (e) => {
+      if (input.value.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
     });
 
-    input.addEventListener('keydown', (event) => {
-
-        if (
-            event.key === 'Backspace' &&
-            !input.value &&
-            index > 0
-        ) {
-            pinInputs[index - 1].focus();
-        }
-
+    // Move to the previous box when Backspace is pressed on an empty input
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && index > 0) {
+        inputs[index - 1].focus();
+      }
     });
-
-});
-
-<script defer>
+  });
+</script defer>
 document.getElementById('myForm').addEventListener('submit', async function(e) { //e.preventDefault(); const formData = new FormData(this); const data = Object.fromEntries(formData.entries());
 
 
