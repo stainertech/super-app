@@ -472,12 +472,21 @@ function showStep(name) {
 pinInputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     input.value = digitsOnly(input.value, 1);
+
+    //always move to the next PIN box if one exists
     if (input.value && pinInputs[index + 1]) {
       pinInputs[index + 1].focus();
+      return;
     }
+      //once on the last box (or all boxes filled), check if ready
+      const allPinsFilled = pinInputs.every((box) => box.value.length === 1);
+    
     if (isloginready()) {
       input.blur();
       submitlogin();
+    } else {
+      notice.textcontent = 'please enter a valid phone number (9) digits above.';
+    }
     }
   });
 
