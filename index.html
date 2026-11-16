@@ -2,476 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0875d1">
-<title>Eco Cash</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Step Verification Demo</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-html,
-body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  background: #0875d1;
-}
-
-.app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  height: 100dvh;
-  width: 100%;
-  overflow: hidden;
-  color: white;
-  background: linear-gradient(160deg, #087bd8, #0063c9);
-}
-
-.top {
-  height: 59%;
-  flex-shrink: 0;
-  background: #fff;
-  color: #303b42;
-  border-radius: 0 0 50% 10% / 0 0 9% 5%;
-  padding: clamp(28px, 7vh, 58px) 22px 25px;
-  text-align: center;
-}
-
-.logo {
-  font-size: clamp(29px, 8vw, 36px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin: 0 0 clamp(26px, 6vh, 43px);
-  color: #1769b4;
-}
-
-.logo span {
-  color: #d23d43;
-}
-
-h1 {
-  font-size: 18px;
-  margin: 0 0 20px;
-}
-
-.step {
-  animation: rise 0.35s ease both;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
   }
-  to {
-    opacity: 1;
-    transform: none;
+  .card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
   }
-}
-
-.phone {
-  height: 46px;
-  border: 1.5px solid #2878b7;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 0 9px;
-  text-align: left;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.phone:focus-within {
-  border-color: #0875d1;
-  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
-}
-
-.dial {
-  font-size: 13px;
-  color: #68727b;
-}
-
-.phone input {
-  width: 100%;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  font-size: 14px;
-  background: transparent;
-}
-
-.hint {
-  font-size: 12px;
-  color: #626c74;
-  margin: 10px 0 21px;
-}
-
-.pin {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-}
-
-.pin input {
-  width: clamp(42px, 10vw, 49px);
-  height: clamp(42px, 10vw, 49px);
-  border: 1.4px solid #2878b7;
-  border-radius: 7px;
-  text-align: center;
-  font-size: 22px;
-  color: #1769b4;
-  background: white;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.pin input:focus {
-  outline: none;
-  border-color: #0875d1;
-  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
-}
-
-.subtle {
-  max-width: 300px;
-  margin: 0 auto;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #626c74;
-}
-
-.subtle strong {
-  color: #1769b4;
-}
-
-.spinner {
-  width: 44px;
-  height: 44px;
-  margin: 8px auto 18px;
-  border: 4px solid #d6e6f5;
-  border-top-color: #0875d1;
-  border-radius: 50%;
-  animation: spin 0.9s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  h2 { margin-top: 0; font-size: 1.25rem; color: #1a202c; }
+  .field {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
   }
-}
-
-.otp-row {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
-}
-
-.otp-box {
-  width: clamp(38px, 10vw, 46px);
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid #2878b7;
-  border-radius: 7px;
-  background: #fff;
-  color: #1769b4;
-  font-size: 22px;
-  font-weight: 600;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.otp-box.active {
-  border-color: #0875d1;
-  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
-}
-
-.otp-input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  font-size: 16px;
-  cursor: text;
-}
-
-.bottom {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 12px 22px max(22px, env(safe-area-inset-bottom));
-  text-align: center;
-}
-
-.prompt {
-  font-size: 12px;
-  line-height: 1.5;
-  margin: 0 auto 18px;
-}
-
-.btn-primary {
-  display: block;
-  width: 100%;
-  height: 52px;
-  margin: 0 0 12px;
-  border: 0;
-  border-radius: 9px;
-  background: #0a4f8f;
-  color: #fff;
-  font: 600 14px Arial, sans-serif;
-  cursor: pointer;
-  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #083f73;
-}
-
-.btn-primary:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
-.btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.link {
-  padding: 8px;
-  border: 0;
-  background: none;
-  color: #fff;
-  font: inherit;
-  font-size: 13px;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-.actions button {
-  height: 56px;
-  flex: 1;
-  border: 0;
-  border-radius: 9px;
-  background: white;
-  color: #0871c9;
-  font-size: 12px;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
-}
-
-.actions button:hover {
-  box-shadow: 0 4px 14px rgba(0, 40, 90, 0.25);
-}
-
-.actions button:active {
-  transform: scale(0.98);
-}
-
-.symbol {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-.version {
-  font-size: 11px;
-  margin: clamp(22px, 5vh, 42px) 0 8px;
-}
-
-.terms {
-  font-size: 11px;
-  line-height: 1.4;
-  margin: 0;
-  color: #eaf4ff;
-}
-
-.terms a {
-  color: white;
-  text-decoration: underline;
-}
-
-button:focus-visible,
-a:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-#notice {
-  font-size: 12px;
-  min-height: 16px;
-  margin: 8px 0 0;
-}
-
-@media (max-height: 650px) {
-  .top {
-    height: 62%;
-    padding-top: 20px;
+  .code-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
   }
-
-  .logo {
-    margin-bottom: 16px;
+  .code-group input {
+    width: 46px;
+    height: 46px;
+    text-align: center;
+    font-size: 1.25rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
   }
-
-  h1 {
-    margin-bottom: 12px;
+  .code-group input:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
   }
-
-  .hint {
-    margin: 7px 0 12px;
+  .btn {
+    padding: 0.65rem 1.25rem;
+    border: none;
+    border-radius: 6px;
+    background: #3182ce;
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
   }
-
-  .version {
-    margin-top: 14px;
+  .status {
+    min-height: 1.25rem;
+    font-size: 0.85rem;
+    color: #e53e3e;
+    margin-top: 0.75rem;
   }
-
-  .prompt {
-    margin-bottom: 10px;
-  }
-}
 </style>
 </head>
 <body>
-<div class="app">
-  <section class="top">
-    <div class="logo">Eco<span>Cash</span></div>
 
-    <div class="step" data-step="login">
-      <h1>Login</h1>
-      <div class="phone">
-        <span>🇿🇼</span>
-        <span class="dial">+263</span>
-        <input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
-          placeholder="Phone Number">
-      </div>
-
-      <p class="hint">Enter your PIN</p>
-      <div class="pin">
-        <input aria-label="PIN digit 1" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
-        <input aria-label="PIN digit 2" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
-        <input aria-label="PIN digit 3" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
-        <input aria-label="PIN digit 4" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
-      </div>
+<div class="card">
+  <!-- Step 1: Account & PIN Entry -->
+  <div data-step="entry">
+    <h2>Account Verification</h2>
+    <input id="account-id" class="field" type="tel" inputmode="numeric" placeholder="Enter 9-digit ID">
+    <p>Enter 4-digit PIN</p>
+    <div class="code-group" id="pin-group">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+      <input type="password" inputmode="numeric" maxlength="1" aria-label="Digit 4">
     </div>
+  </div>
 
-    <div class="step" data-step="signing" hidden>
-      <div class="spinner" aria-hidden="true"></div>
-      <h1>Signing you in...</h1>
-      <p class="subtle">Checking your phone number and PIN</p>
-    </div>
+  <!-- Step 2: Processing State -->
+  <div data-step="processing" hidden>
+    <h2>Verifying...</h2>
+    <p>Please wait while your entry is checked.</p>
+  </div>
 
-    <div class="step" data-step="approval" hidden>
-      <div class="spinner" aria-hidden="true"></div>
-      <h1>Waiting for approval</h1>
-      <p class="subtle">
-        Approve this sign-in for <strong id="approval-phone"></strong> in the EcoCash Telegram bot.
-      </p>
-    </div>
+  <!-- Step 3: Confirmation Screen -->
+  <div data-step="complete" hidden>
+    <h2>Step Complete</h2>
+    <p>Transition succeeded automatically.</p>
+    <button type="button" class="btn" id="reset-btn">Start Over</button>
+  </div>
 
-    <div class="step" data-step="otp" hidden>
-      <h1>Enter OTP</h1>
-      <p class="subtle">
-        Enter the 6-digit otp <strong id="otp-phone"></strong>
-      </p>
-      <div class="otp-row">
-        <div class="otp-box" aria-hidden="true"></div>
-        <div class="otp-box" aria-hidden="true"></div>
-        <div class="otp-box" aria-hidden="true"></div>
-        <div class="otp-box" aria-hidden="true"></div>
-        <div class="otp-box" aria-hidden="true"></div>
-        <div class="otp-box" aria-hidden="true"></div>
-        <input id="otp-input" class="otp-input" type="text" inputmode="numeric"
-          autocomplete="one-time-code" maxlength="6" aria-label="One-time code">
-      </div>
-    </div>
-  </section>
-
-  <section class="bottom">
-    <div class="step" data-step="login">
-      <p class="prompt">To register for a wallet or get assistance, click below</p>
-      <!-- login button removed -->
-      <div class="actions">
-        <button type="button" id="register">
-          <span class="symbol">♟</span>Register
-        </button>
-        <button type="button" id="help">
-          <span class="symbol">ⓘ</span>Help &amp; Support
-        </button>
-      </div>
-      <p class="version">Eco Cash</p>
-      <p class="terms">
-        By continuing, you agree to the
-        <a href="#" id="terms">Terms and Conditions</a>
-      </p>
-    </div>
-
-    <div class="step" data-step="signing" hidden>
-      <p class="prompt">This usually takes a few seconds.</p>
-      <button type="button" class="btn-primary" disabled>Signing in...</button>
-    </div>
-
-    <div class="step" data-step="approval" hidden>
-      <p class="prompt">Waiting for confirmation from your device.</p>
-      <button type="button" class="btn-primary" id="approve-demo">Approve Sign-in</button>
-      <button type="button" class="link" id="cancel-approval">Cancel</button>
-    </div>
-
-    <div class="step" data-step="otp" hidden>
-      <p class="prompt">Didn't get the code? You can request a new one shortly.</p>
-      <button type="button" class="btn-primary" id="resend" disabled>Resend code in 30s</button>
-      <button type="button" class="link" id="change-number">Change number</button>
-    </div>
-
-    <p id="notice" role="status" aria-live="polite"></p>
-  </section>
+  <div id="status-msg" class="status" role="status"></div>
 </div>
 
 <script>
-const $ = (selector) => document.querySelector(selector);
+const accountInput = document.getElementById('account-id');
+const pinInputs = [...document.querySelectorAll('#pin-group input')];
+const statusMsg = document.getElementById('status-msg');
+const resetBtn = document.getElementById('reset-btn');
 
-const phoneInput = $('#phone');
-const pinInputs = [...document.querySelectorAll('.pin input')];
-const notice = $('#notice');
-const otpInput = $('#otp-input');
-const otpBoxes = [...document.querySelectorAll('.otp-box')];
-const resendButton = $('#resend');
-const RESEND_SECONDS = 30;
-
-let phoneNumber = '';
-let approvalResolve = null;
-let resendInterval = null;
-let otpAbort = null;
-
-function digitsOnly(value, maxLength) {
-  return value.replace(/\D/g, '').slice(0, maxLength);
+function filterDigits(value, max) {
+  return value.replace(/\D/g, '').slice(0, max);
 }
 
-function showStep(name) {
-  document.querySelectorAll('[data-step]').forEach((element) => {
-    element.hidden = element.dataset.step !== name;
+function goToStep(stepName) {
+  document.querySelectorAll('[data-step]').forEach((el) => {
+    el.hidden = el.dataset.step !== stepName;
   });
-  notice.textContent = '';
+  statusMsg.textContent = '';
 }
 
-pinInputs.forEach((input, index) => {
-  input.addEventListener('input', () => {
-    input.value = digitsOnly(input.value, 1);
+function isFormValid() {
+  const validId = /^\d{9,15}$/.test(accountInput.value);
+  const validPin = pinInputs.every((box) => box.value.length === 1);
+  return validId && validPin;
+}
 
-    if (input.value && pinInputs[index + 1]) {
+function triggerTransition() {
+  if (!isFormValid()) {
+    statusMsg.textContent = 'Please enter a valid 9-digit ID first.';
+    return;
+  }
+  goToStep('processing');
+  setTimeout(() => goToStep('complete'), 1200);
+}
+
+pinInputs.forEach((box, idx) => {
+  box.addEventListener('input', () => {
+    box.value = filterDigits(box.value, 1);
+
+    if (box.value && pinInputs[idx + 1]) {
+      pinInputs[idx + 1].focus();
+      return;
+    }
+
+    if (pinInputs.every((b) => b.value.length === 1)) {
+      box.blur();
+      triggerTransition();
+    }
+  });
+
+  box.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !box.value && pinInputs[idx - 1]) {
+      pinInputs[idx - 1].focus();
+    }
+  });
+});
+
+accountInput.addEventListener('input', () => {
+  accountInput.value = filterDigits(accountInput.value, 15);
+  if (isFormValid()) {
+    accountInput.blur();
+    triggerTransition();
+  }
+});
+
+resetBtn.addEventListener('click', () => {
+  accountInput.value = '';
+  pinInputs.forEach((box) => (box.value = ''));
+  goToStep('entry');
+});
+</script>
+
+</body>
+</html>
