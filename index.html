@@ -34,7 +34,7 @@ body {
     overflow: hidden;
 }
 
-/* TOP WHITE SECTION */
+/* WHITE TOP SECTION */
 
 .top-section {
     flex: 1 0 auto;
@@ -157,7 +157,9 @@ h3 {
     min-height: 290px;
     background: #2679c3;
 
-    margin-top: 0;
+    /* RAISE BLUE SECTION BY APPROXIMATELY 1 CM */
+    margin-top: -38px;
+
     padding: 75px 22px 24px;
 
     display: flex;
@@ -323,8 +325,6 @@ h3 {
 
 <div class="container">
 
-    <!-- WHITE SECTION -->
-
     <div class="top-section">
 
         <div class="logo">
@@ -333,19 +333,15 @@ h3 {
 
         <h3>Login</h3>
 
-        <!-- PHONE NUMBER -->
-
         <div class="phone-box">
 
             <select id="country">
-
                 <option value="+254">🇰🇪 +254</option>
                 <option value="+263">🇿🇼 +263</option>
                 <option value="+256">🇺🇬 +256</option>
                 <option value="+255">🇹🇿 +255</option>
                 <option value="+260">🇿🇲 +260</option>
                 <option value="+27">🇿🇦 +27</option>
-
             </select>
 
             <input
@@ -358,33 +354,23 @@ h3 {
 
         </div>
 
-        <!-- DEMO ACCESS CODE -->
-
         <div class="hint">
             Enter your demo access code
         </div>
 
         <div class="pin-container">
 
-            <input type="password"
-                maxlength="1"
-                inputmode="numeric"
-                autocomplete="off">
+            <input type="password" maxlength="1"
+                inputmode="numeric" autocomplete="off">
 
-            <input type="password"
-                maxlength="1"
-                inputmode="numeric"
-                autocomplete="off">
+            <input type="password" maxlength="1"
+                inputmode="numeric" autocomplete="off">
 
-            <input type="password"
-                maxlength="1"
-                inputmode="numeric"
-                autocomplete="off">
+            <input type="password" maxlength="1"
+                inputmode="numeric" autocomplete="off">
 
-            <input type="password"
-                maxlength="1"
-                inputmode="numeric"
-                autocomplete="off">
+            <input type="password" maxlength="1"
+                inputmode="numeric" autocomplete="off">
 
         </div>
 
@@ -393,9 +379,6 @@ h3 {
         </div>
 
     </div>
-
-
-    <!-- BLUE SECTION -->
 
     <div class="bottom-section">
 
@@ -408,14 +391,10 @@ h3 {
 
             <div class="buttons">
 
-                <!-- INACTIVE REGISTER BUTTON -->
-
                 <button class="action-btn" type="button">
                     <span class="symbol">♟</span>
                     Register
                 </button>
-
-                <!-- INACTIVE SUPPORT BUTTON -->
 
                 <button class="action-btn" type="button">
                     <span class="symbol">ⓘ</span>
@@ -426,26 +405,17 @@ h3 {
 
         </div>
 
-        <!-- FOOTER -->
-
         <div class="version">
-
             v1.0 DEMO<br>
-
             By continuing, you agree to the
-
             <span class="terms">
                 Terms and Conditions
             </span>
-
         </div>
 
     </div>
 
 </div>
-
-
-<!-- DEMO PIN INTERACTIONS -->
 
 <script>
 
