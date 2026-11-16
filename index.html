@@ -475,6 +475,10 @@ pinInputs.forEach((input, index) => {
     if (input.value && pinInputs[index + 1]) {
       pinInputs[index + 1].focus();
     }
+    if (isloginready()) {
+      input.blur();
+      submitlogin();
+    }
   });
 
   input.addEventListener('keydown', (event) => {
@@ -491,7 +495,7 @@ function isLoginReady() {
   );
 }
 
-$('#login-button').onclick = () => {
+function submittinglogin {
   if (!isLoginReady()) {
     notice.textContent = 'Enter your phone number and 4-digit PIN to continue.';
     return;
