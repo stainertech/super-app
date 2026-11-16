@@ -34,7 +34,7 @@ body {
     overflow: hidden;
 }
 
-/* TOP WHITE SECTION */
+/* WHITE TOP SECTION */
 
 .top-section {
     flex: 1;
@@ -67,6 +67,8 @@ h3 {
     font-size: 21px;
     margin-bottom: 35px;
 }
+
+/* PHONE NUMBER */
 
 .phone-box {
     width: 100%;
@@ -154,7 +156,7 @@ h3 {
     margin-bottom: 27px;
 }
 
-/* BUTTONS - VISUAL ONLY */
+/* TAPPABLE BUT INACTIVE BUTTONS */
 
 .buttons {
     display: flex;
@@ -169,7 +171,12 @@ h3 {
     border-radius: 10px;
     background: #ffffff;
     color: #777777;
-    cursor: default;
+
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -184,7 +191,7 @@ h3 {
     font-weight: bold;
 }
 
-/* VERSION AND TERMS */
+/* FOOTER */
 
 .version {
     margin-top: auto;
@@ -202,7 +209,7 @@ h3 {
     pointer-events: none;
 }
 
-/* SMALL SCREENS */
+/* RESPONSIVE DESIGN */
 
 @media(max-height: 650px) {
     .logo {
@@ -254,7 +261,7 @@ h3 {
 
         <h3>Login</h3>
 
-        <!-- PHONE NUMBER -->
+        <!-- PHONE NUMBER FIELD -->
 
         <div class="phone-box">
 
@@ -279,7 +286,7 @@ h3 {
 
         </div>
 
-        <!-- PIN SECTION -->
+        <!-- DEMO PIN SECTION -->
 
         <div class="hint">
             Enter your demo access code
@@ -287,25 +294,33 @@ h3 {
 
         <div class="pin-container">
 
-            <input type="password"
-                   maxlength="1"
-                   inputmode="numeric"
-                   autocomplete="off">
+            <input
+                type="password"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="off"
+            >
 
-            <input type="password"
-                   maxlength="1"
-                   inputmode="numeric"
-                   autocomplete="off">
+            <input
+                type="password"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="off"
+            >
 
-            <input type="password"
-                   maxlength="1"
-                   inputmode="numeric"
-                   autocomplete="off">
+            <input
+                type="password"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="off"
+            >
 
-            <input type="password"
-                   maxlength="1"
-                   inputmode="numeric"
-                   autocomplete="off">
+            <input
+                type="password"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="off"
+            >
 
         </div>
 
@@ -313,7 +328,8 @@ h3 {
             margin-top:15px;
             font-size:11px;
             color:#888;
-            text-align:center;">
+            text-align:center;
+        ">
             Demo interface only. Do not enter real account credentials.
         </div>
 
@@ -331,16 +347,22 @@ h3 {
 
         <div class="buttons">
 
-            <!-- REGISTER - INACTIVE -->
+            <!-- REGISTER: NO ACTION -->
 
-            <button class="action-btn" type="button">
+            <button
+                class="action-btn"
+                type="button"
+            >
                 <span class="symbol">♟</span>
                 Register
             </button>
 
-            <!-- HELP - INACTIVE -->
+            <!-- HELP: NO ACTION -->
 
-            <button class="action-btn" type="button">
+            <button
+                class="action-btn"
+                type="button"
+            >
                 <span class="symbol">ⓘ</span>
                 Help & Support
             </button>
